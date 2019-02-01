@@ -26,7 +26,7 @@ class App extends Component {
       <div className="App">
       <DetailedPlaylist />
       </div>
-    );
+    )
   }
 }
 

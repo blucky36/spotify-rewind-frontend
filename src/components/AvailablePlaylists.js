@@ -2,6 +2,19 @@ import React, {Component} from 'react'
 import {Link} from "react-router-dom"
 
 class AvailablePlaylists extends Component {
+  async componentDidMount(){
+    //we make an api call to populate the database
+    let tokenObj = JSON.parse(localStorage.getItem("token"))
+    console.log(tokenObj)
+    let userData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}`,{
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
+    }).then(data=>data.json())
+    let playlistData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists`,{
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
+    }).then(data=>data.json())
+    console.log(userData)
+    console.log(playlistData);
+  }
   render(){
     return(
     <div>
@@ -19,19 +32,8 @@ class AvailablePlaylists extends Component {
 
            <div>
             <ul className="list-group">
-            <li class="list-group-item">this is a ul now but will eventually populate from the api</li>
-            <li class="list-group-item" >
-              <Link to = "/detailedplaylist" className="btn btn-primary">
-                Playlist 1
-              </Link> 
-            </li>
-            <li class="list-group-item">Playlist 2</li>
-            <li class="list-group-item">Playlist 3</li>
-            <li class="list-group-item">Playlist 4</li>
-            <li class="list-group-item">Playlist 7</li>
-            <li class="list-group-item">Playlist 8</li>
-            <li class="list-group-item">Playlist 9</li>
-            <li class="list-group-item">Playlist 10</li>
+
+              </div>
             </ul>
            </div>
 

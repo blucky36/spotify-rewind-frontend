@@ -1,3 +1,19 @@
 body{
   font-family: 'Proxima Nova', sans-serif;
 }
+
+.loginButton {
+  height: 100%;
+  width: 100%;
+}
+
+.fidget{
+  height:140px;
+  width: 140px;
+  background: url('https://discuss-assets.s3.amazonaws.com/original/3X/0/3/03ad072969fc47ab98c776a60afc76d61e4877e8.svg') no-repeat;
+  background-position: 22px 30px;
+  background-size: 96px 96px;
+  animation: spin 60s cubic-bezier(.30,.60,.60,1);
+}
+
+@keyframes spin { 100% { transform: rotate(24000deg) }};

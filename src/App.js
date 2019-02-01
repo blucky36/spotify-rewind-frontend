@@ -7,7 +7,7 @@ class App extends Component {
       <div className="App">
         <h1>Spotify Rewind Bitches</h1>
       </div>
-    );
+    )
   }
 }
 

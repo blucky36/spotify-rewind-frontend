@@ -4,6 +4,10 @@ body{
   color: white;
 }
 
+.textColor{
+  color:#999999!important;
+}
+
 .top{
   margin-top:5%;
 }

@@ -4,13 +4,17 @@ import LoginPage from './components/LoginPage'
 import AvailablePlaylists from './components/AvailablePlaylists'
 import DetailedPlaylist from './components/DetailedPlaylist'
 import HandleLogin from './components/HandleLogin'
+import Playlist from './components/Playlist'
+
 
 const url = "gonna put ur url here"
 
 class App extends Component {
 
 state = {
-  playlist: []
+  playlistsData: {},
+  playlists:[],
+  userData: {}
 }
 
 // async handleLogin(){
@@ -35,7 +39,7 @@ state = {
             <div classsName ="container-fluid">
               <Switch>
                 <Route exact path = "/" render={()=><LoginPage/>}/>
-                <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists/>}/>
+                <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists state={this.state}/>}/>
                 <Route path = "/detailedplaylist" render={()=><DetailedPlaylist/>}/>
                 <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
               </Switch>

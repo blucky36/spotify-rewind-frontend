@@ -20,14 +20,21 @@ class App extends Component {
   }
     */
 
-  render() {
-
-    return (
-      <div className="App">
-      <DetailedPlaylist />
-      </div>
-    )
+    render() {
+      return (
+        <div className="App">
+          <Router>
+            <div>
+              <Switch>
+                <Route exact path = "/" render={()=><LoginPage/>}/>
+                <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists/>}/>
+                <Route exact path = "/detailedplaylist" render={()=><DetailedPlaylist/>}/>
+              </Switch>
+            </div>
+          </Router>
+        </div>
+      );
+    }
   }
-}
 
 export default App;

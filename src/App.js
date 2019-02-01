@@ -8,11 +8,16 @@ import Playlist from './components/Playlist'
 
 class App extends Component {
 
-state = {
-  playlistsData: {},
-  playlists:[],
-  userData: {}
-}
+  state = {
+    playlistsData: {},
+    playlists:[],
+    userData: {},
+    selected: {}
+  }
+
+  selectPlaylist(selectedObj){
+    this.setState({...this.state,selected:selectedObj})
+  }
 
   render() {
     return (
@@ -21,7 +26,7 @@ state = {
           <div className ="container-fluid">
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
-              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists state={this.state}/>}/>
+              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
               <Route path = "/detailedplaylist" render={()=><DetailedPlaylist/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
             </Switch>

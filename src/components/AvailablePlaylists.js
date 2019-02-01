@@ -7,7 +7,6 @@ export default class AvailablePlaylists extends Component {
   state = {...this.props.state}
   async componentDidMount(){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
-    console.log(tokenObj)
     let userData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}`,{
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
     }).then(data=>data.json())
@@ -19,9 +18,7 @@ export default class AvailablePlaylists extends Component {
     this.setState({...this.state,playlistsData,userData,playlists:playlistsData.items})
   }
 
-  selectPlaylist(selectedObj){
-    this.setState({...this.state,selected:selectedObj})
-  }
+
 
   render(){
     return(
@@ -34,7 +31,7 @@ export default class AvailablePlaylists extends Component {
         <button type="button" className="btn btn-primary">Add a new playlist</button>
       </div>
       <ul className="list-group">
-        {this.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.selectPlaylist.bind(this)}/>)}
+        {this.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>)}
       </ul>
     </div>
     )

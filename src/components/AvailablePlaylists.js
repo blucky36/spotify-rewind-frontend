@@ -30,12 +30,12 @@ class AvailablePlaylists extends Component {
               <button type="button" class="btn btn-primary">Add a new playlist</button>
            </div>
 
-           <div>
             <ul className="list-group">
+            <div>
+            </div>
 
-              </div>
             </ul>
-           </div>
+
 
         </div>
     </div>

@@ -15,6 +15,10 @@ class ComparePlaylist extends Component {
   }
 
   componentDidMount = async () => {
+
+    // this section is grabbing random stuff from api, and making a couple
+    // random playlists to compare.. not needed for production
+
     const playlistReq = await fetch('http://localhost:3005/api/users/1249465062/playlists/19qKzDBqnI0GKkGzU8Owcw/versions/1')
     const playlistActual = await playlistReq.json()
 
@@ -28,7 +32,16 @@ class ComparePlaylist extends Component {
 
     pl1.splice(Math.floor(Math.random() * pl1.length),1)
 
-    const diffArr = diff.diffArrays(pl1, pl2)
+    // now begins actual code that generates a diff...
+
+    const sortBySpotId = (a,b) => {
+      return a['spotify_id'].localeCompare(b['spotify_id'])
+    }
+
+    const pl1sorted = pl1.sort(sortBySpotId)
+    const pl2sorted = pl2.sort(sortBySpotId)
+
+    const diffArr = diff.diffArrays(pl1sorted, pl2sorted)
 
     let oldPl = []
     let newPl = []
@@ -36,13 +49,8 @@ class ComparePlaylist extends Component {
     diffArr.forEach(diffObj => {
       diffObj.value.forEach(val => {
         if (diffObj.added) {
-          if (pl1.includes(val)) {
-            newPl.push({ ...val, moved: true })
-            oldPl.push({})
-          } else {
             newPl.push({ ...val, added: true })
             oldPl.push({})
-          }
         } else if (diffObj.removed) {
           newPl.push({})
           oldPl.push({ ...val, removed: true })
@@ -52,16 +60,6 @@ class ComparePlaylist extends Component {
         }
       })
     })
-
-    newPl.forEach(item => {
-      if (item.moved) {
-        oldPl = oldPl.map(oldItem => {
-          if (oldItem['spotify_id'] === item['spotify_id']) return { ...oldItem, moved: true }
-          return oldItem
-        })
-      }
-    })
-
 
     this.setState(prevState => {
       return ({
@@ -77,9 +75,7 @@ class ComparePlaylist extends Component {
   renderPlaylistDiff = (playlist) => {
 
     return playlist.map(item => {
-        if (item.moved) {
-          item.color = 'yellow'
-        } else if (item.added) {
+        if (item.added) {
           item.color = 'green'
         } else if (item.removed) {
           item.color = 'red'

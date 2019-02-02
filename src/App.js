@@ -13,6 +13,7 @@ class App extends Component {
     playlists:[],
     userData: {},
     selected: {},
+    selectedPlaylistTracks:[],
     avatar:""
   }
 
@@ -24,6 +25,10 @@ class App extends Component {
     this.setState({...this.state,selected:selectedObj})
   }
 
+  grabTracks(array){
+    this.setState({...this.state,selectedPlaylistTracks:array})
+  }
+
   render() {
     return (
       <div className="App">
@@ -32,7 +37,7 @@ class App extends Component {
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
               <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
-              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist/>}/>
+              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
             </Switch>
           </div>

@@ -12,7 +12,12 @@ class App extends Component {
     playlistsData: {},
     playlists:[],
     userData: {},
-    selected: {}
+    selected: {},
+    avatar:""
+  }
+
+  setMain(playlistsData,userData){
+    this.setState({...this.state,playlistsData,userData,playlists:playlistsData.items,avatar:userData.images[0].url})
   }
 
   selectPlaylist(selectedObj){
@@ -26,8 +31,8 @@ class App extends Component {
           <div className ="container-fluid">
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
-              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
-              <Route path = "/detailedplaylist" render={()=><DetailedPlaylist/>}/>
+              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
+              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
             </Switch>
           </div>

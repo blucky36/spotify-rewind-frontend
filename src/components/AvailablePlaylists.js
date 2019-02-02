@@ -21,7 +21,7 @@ export default class AvailablePlaylists extends Component {
   render(){
     return(
       <div>
-        <Navbar navState = {{avatar:this.props.state.avatar,name:this.props.state.userData.display_name}}/>
+      <Navbar navState = {{avatar:this.props.state.avatar,name:this.props.state.userData.display_name}}/>
         <div>
         </div>
         <div className="col-md-4 center-block">

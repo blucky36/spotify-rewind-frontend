@@ -16,6 +16,12 @@ body{
   margin-top:5%;
 }
 
+#ooh{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
 .loginButton {
   height: 105%;
   width: 105%;

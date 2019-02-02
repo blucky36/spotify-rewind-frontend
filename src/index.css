@@ -8,6 +8,10 @@ body{
   color:#999999!important;
 }
 
+#black{
+  background:#00000!important;
+}
+
 .top{
   margin-top:5%;
 }
@@ -26,7 +30,7 @@ body{
 .fidget{
   height:140px;
   width: 140px;
-  background: url('images/spotify_rewind_transparent.svg') no-repeat;
+  background: url('./images/spotify_rewind_transparent.svg') no-repeat;
   background-position: 22px 30px;
   background-size: 96px 96px;
   animation: spin 60s cubic-bezier(.30,.60,.60,1);

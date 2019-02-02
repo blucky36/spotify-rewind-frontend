@@ -4,7 +4,7 @@ import Playlist from './Playlist'
 import Navbar from "./Navbar.js"
 
 export default class AvailablePlaylists extends Component {
-  state = {...this.props.state}
+
   async componentDidMount(){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let userData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}`,{
@@ -15,25 +15,22 @@ export default class AvailablePlaylists extends Component {
     }).then(data=>data.json())
     console.log(userData)
     console.log(playlistsData);
-    this.setState({...this.state,playlistsData,userData,playlists:playlistsData.items})
+    this.props.setMain(playlistsData,userData)
   }
-
-
 
   render(){
     return(
-    <div>
-      <Navbar/>
       <div>
-        <p className="text-left">Hello {this.state.userData.display_name}</p>
+        <Navbar navState = {{avatar:this.props.state.avatar,name:this.props.state.userData.display_name}}/>
+        <div>
+        </div>
+        <div className="col-md-4 center-block">
+          <button type="button" className="btn btn-primary">Add a new playlist</button>
+        </div>
+        <ul className="list-group">
+          {this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>)}
+        </ul>
       </div>
-      <div className="col-md-4 center-block">
-        <button type="button" className="btn btn-primary">Add a new playlist</button>
-      </div>
-      <ul className="list-group">
-        {this.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>)}
-      </ul>
-    </div>
     )
   }
 }

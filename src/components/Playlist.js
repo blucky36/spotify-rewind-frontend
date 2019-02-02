@@ -1,17 +1,14 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Link} from "react-router-dom"
 
-class Playlist extends Component {
-  render(){
-    return(
-      <div>
-        <ul>
-
-        <li className="list-group-item"><Link to = "/detailedplaylist" className="btn btn-primary loginButton" onClick={()=>{this.props.select(this.props.playlist)}}>{this.props.playlist.name}</Link> </li>
-        </ul>
-      </div>
-    )
-  }
-}
+const Playlist = (props) => (
+  <div className = "row">
+    <div className = "col-2"></div>
+    <div className = "col-8">
+      <Link to = {`/detailedplaylist/${props.playlist.id}`} className="btn btn-secondary loginButton" onClick={()=>{props.select(props.playlist)}}>{props.playlist.name}</Link>
+    </div>
+    <div className = "col-2"></div>
+  </div>
+)
 
 export default Playlist

@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import TrackCompare from './TrackCompare'
+import PlaylistSidebar from './PlaylistSidebar'
+import Navbar from './Navbar'
 const diff = require('diff')
 
 class ComparePlaylist extends Component {
@@ -8,11 +10,12 @@ class ComparePlaylist extends Component {
     playlist1: [],
     playlist2: [],
     playlist1Diff: [],
-    playlist2Diff: []
+    playlist2Diff: [],
+    currentPlaylistId: window.location.href.split('/').slice(-1)[0]
   }
 
   componentDidMount = async () => {
-    const playlistReq = await fetch('http://localhost:3005/api/users/1249465062/playlists/19qKzDBqnI0GKkGzU8Owcw/versions/1')
+    const playlistReq = await fetch(`http://localhost:3005/api/users/${this.props.id}/playlists/${this.state.currentPlaylistId}/versions`)
     const playlistActual = await playlistReq.json()
 
     const pl1 = [...playlistActual]
@@ -89,15 +92,46 @@ class ComparePlaylist extends Component {
 
     render() {
       return (
-< div className='container'>
-  < div className='row'>
-    < div className='col-sm'>
-      { this.renderPlaylistDiff(this.state.playlist1Diff) }
+        <>
+        <div className='container'>
+          <div className='row'>
+          <div className='col-1'>
+            <PlaylistSidebar id={this.props.id}/>
+          </div>
+          <div className='col-11'>
+            <div className='row'>
+        <div className='col'>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Song</th>
+              <th scope="col">Artist</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.renderPlaylistDiff(this.state.playlist1Diff) }
+          </tbody>
+        </table>
+    </div>
+        <div className='col'>
+        <table className="table">
+          <thead>
+            <tr>
+              <th scope="col">Song</th>
+              <th scope="col">Artist</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.renderPlaylistDiff(this.state.playlist2Diff) }
+          </tbody>
+        </table>
     < / div>
+  </div>
+  </div>
+  </div>
+  </div>
+  </>
 
-          < div className='col-sm'>
-            { this.renderPlaylistDiff(this.state.playlist2Diff) }</div> </div>
-                < /div>
       );
     }
 

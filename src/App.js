@@ -31,6 +31,14 @@ class App extends Component {
     this.setState({...this.state,selectedPlaylistTracks:array})
   }
 
+  createPlaylist = async (playlist) => {
+    await fetch(`http://localhost:3005/api/users/${this.state.userData.id}/playlists`, {
+      method: 'POST',
+      body: JSON.stringify(playlist)
+    })
+    console.log('backed up playlist')
+  }
+
   render() {
     return (
       <div className="App">
@@ -39,10 +47,10 @@ class App extends Component {
             {this.state.avatar !== "" && <Navbar navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} />}
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
-              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
+              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)} state={this.state} createPlaylist={this.createPlaylist}/>}/>
               <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
-              <Route path= '/compare' render={()=> <ComparePlaylist />} />
+              <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id}/>} />
             </Switch>
           </div>
         </Router>

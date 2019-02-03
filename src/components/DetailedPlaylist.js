@@ -7,6 +7,10 @@ class DetailedPlayliest extends Component {
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let urlSplit = window.location.href.split("/")
     let playlistId = urlSplit[urlSplit.length-1]
+
+    //// i think this could be cleaned up to use a for loop based on the apiResponse.total (total number of songs in a playlist)...
+    //// divide that number by 100, if there is a modulo do it that many times + 1, no modulo do it that many times....
+    //// concat/push each response onto the original repeatedly...
     let trackData = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?offset=0&limit=100`,{
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
     }).then(data=>data.json())
@@ -39,6 +43,9 @@ class DetailedPlayliest extends Component {
     }).then(data=>data.json())
     let trackArray = trackData.items.concat(trackData2.items).concat(trackData3.items).concat(trackData4.items).concat(trackData5.items).concat(trackData6.items).concat(trackData7.items).concat(trackData8.items).concat(trackData9.items).concat(trackData10.items)
     console.log(trackArray,"playlistData");
+    ///////
+    ////// up to here ^
+    //////
     this.props.grabTracks(trackArray)
   }
 

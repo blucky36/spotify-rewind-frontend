@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import Track from './Track'
+import TrackCompare from './TrackCompare'
 const diff = require('diff')
 
 class ComparePlaylist extends Component {
 
   state = {
-    playlist1: [
-
-    ],
-    playlist2: [
-
-    ],
+    playlist1: [],
+    playlist2: [],
     playlist1Diff: [],
     playlist2Diff: []
   }
@@ -85,9 +81,9 @@ class ComparePlaylist extends Component {
         } else if (item.removed) {
           item.color = 'red'
         } else {
-          item.color = 'black'
+          item.color = 'white'
         }
-        return  item === null ? <tr><td></td></tr> : (<Track style={{color:item.color}} track={{track: item}}/>)
+        return (<TrackCompare track={{track: item}}/>)
         })
     }
 
@@ -96,10 +92,11 @@ class ComparePlaylist extends Component {
 < div className='container'>
   < div className='row'>
     < div className='col-sm'>
-      < ul> { this.renderPlaylistDiff(this.state.playlist1Diff) } < /ul> < / div>
+      { this.renderPlaylistDiff(this.state.playlist1Diff) }
+    < / div>
 
           < div className='col-sm'>
-            < ul> { this.renderPlaylistDiff(this.state.playlist2Diff) } < /ul> < /div> < / div>
+            { this.renderPlaylistDiff(this.state.playlist2Diff) }</div> </div>
                 < /div>
       );
     }

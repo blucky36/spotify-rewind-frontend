@@ -37,4 +37,8 @@ body{
   width:75px;
 }
 
+audio{
+  background:#222222;  /*doesnt work */
+}
+
 @keyframes spin{100%{transform: rotate(24000deg)}}

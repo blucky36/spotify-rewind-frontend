@@ -47,8 +47,8 @@ class App extends Component {
             {this.state.avatar !== "" && <Navbar navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} />}
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
-              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)} state={this.state} createPlaylist={this.createPlaylist}/>}/>
-              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
+              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
+              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
               <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id}/>} />
             </Switch>

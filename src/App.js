@@ -4,7 +4,7 @@ import LoginPage from './components/LoginPage'
 import AvailablePlaylists from './components/AvailablePlaylists'
 import DetailedPlaylist from './components/DetailedPlaylist'
 import HandleLogin from './components/HandleLogin'
-import Playlist from './components/Playlist'
+import Navbar from "./components/Navbar.js"
 
 class App extends Component {
 
@@ -17,8 +17,9 @@ class App extends Component {
     avatar:""
   }
 
-  setMain(playlistsData,userData){
-    this.setState({...this.state,playlistsData,userData,playlists:playlistsData.items,avatar:userData.images[0].url})
+  setMain(playlistsData,userData,playlistData2){
+    let playlists = playlistsData.items.concat(playlistData2.items)
+    this.setState({...this.state,playlistsData,userData,playlists,avatar:userData.images[0].url})
   }
 
   selectPlaylist(selectedObj){
@@ -34,10 +35,11 @@ class App extends Component {
       <div className="App">
         <Router>
           <div className ="container-fluid">
+            {this.state.avatar !== "" && <Navbar navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} />}
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
               <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
-              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
+              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
             </Switch>
           </div>

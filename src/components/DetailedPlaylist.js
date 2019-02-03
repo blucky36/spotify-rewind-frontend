@@ -1,6 +1,4 @@
-import React, {Component,Fragment} from 'react'
-import {Link} from "react-router-dom"
-import Navbar from "./Navbar.js"
+import React, {Component} from 'react'
 import Track from "./Track.js"
 
 class DetailedPlayliest extends Component {
@@ -19,7 +17,6 @@ class DetailedPlayliest extends Component {
   render(){
     return(
       <div>
-        <Navbar navState = {this.props.navState}/>
         <div className="row">
           <div className="col-2">
             <button  type = "button" className="btn btn-primary">Backup Now</button>

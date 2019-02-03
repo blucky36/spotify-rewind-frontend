@@ -7,9 +7,15 @@ const Track = (props) => (
     <td>{props.track.track.name}</td>
     <td>{props.track.track.artists[0].name}</td>
     <td>
-      <audio controls>
+      <audio id="player">
         <source src={`${props.track.track.preview_url}`} type="audio/mp3"/>
       </audio>
+        <div>
+          <button onClick={()=>{console.log("yeet");document.getElementById('player').play()}}>Play</button>
+          <button onClick={()=>{document.getElementById('player').pause()}}>Pause</button>
+          <button onClick={()=>{document.getElementById('player').volume += 0.1}}>Vol +</button>
+          <button onClick={()=>{document.getElementById('player').volume -= 0.1}}>Vol -</button>
+        </div>
     </td>
   </tr>
 )

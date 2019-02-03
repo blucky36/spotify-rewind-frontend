@@ -38,7 +38,21 @@ class DetailedPlayliest extends Component {
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
     }).then(data=>data.json())
     let trackArray = trackData.items.concat(trackData2.items).concat(trackData3.items).concat(trackData4.items).concat(trackData5.items).concat(trackData6.items).concat(trackData7.items).concat(trackData8.items).concat(trackData9.items).concat(trackData10.items)
-    console.log(trackArray,"playlistData");
+    console.log(trackArray,"playlistData")
+    console.log(this.props.state)
+    let backendUserData = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}`).then(data=>data.json())
+    await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${backendUserData.id}/playlists`,
+      {
+        method:"post",
+        headers: {"Content-Type": "application/json","Accept": "application/json"},
+        body:JSON.stringify({
+          spotify_playlist_id:this.props.state.selected.id,
+          name:this.props.state.selected.name,
+          notes:"oibruv",
+          trackArray:trackArray
+        })
+      }
+    )
     this.props.grabTracks(trackArray)
   }
 
@@ -47,7 +61,7 @@ class DetailedPlayliest extends Component {
       <div>
         <div className="row">
           <div className="col-2">
-            <button  type = "button" className="btn btn-primary">Backup Now</button>
+            <button  type = "button" className="btn btn-primary">Select Version</button>
           </div>
           <div className="col-8"></div>
           <div className = "col-2"></div>
@@ -63,7 +77,7 @@ class DetailedPlayliest extends Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.tracks.map((track,i)=><Track key = {i} track = {track}/>)}
+            {this.props.tracks.map((track,i)=><Track key = {i} index = {i} track = {track}/>)}
           </tbody>
         </table>
       </div>

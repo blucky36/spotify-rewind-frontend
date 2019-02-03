@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Track from './Track'
 const diff = require('diff')
 
 class ComparePlaylist extends Component {
@@ -86,34 +87,20 @@ class ComparePlaylist extends Component {
         } else {
           item.color = 'black'
         }
-        return ( < li > { item === null ? '' : <span style={{color:item.color}}>{item['spotify_id']}</span>} < /li>)
+        return  item === null ? <tr><td></td></tr> : (<Track style={{color:item.color}} track={{track: item}}/>)
         })
     }
 
     render() {
-      return ( <
-        div className = 'container' >
-        <
-        div className = 'row' >
-        <
-        div className = 'col-sm' >
-        <
-        ul > { this.renderPlaylistDiff(this.state.playlist1Diff) } <
-        /ul> < /
-        div >
+      return (
+< div className='container'>
+  < div className='row'>
+    < div className='col-sm'>
+      < ul> { this.renderPlaylistDiff(this.state.playlist1Diff) } < /ul> < / div>
 
-        <
-        div className = 'col-sm' >
-        <
-        ul > { this.renderPlaylistDiff(this.state.playlist2Diff) } <
-        /ul>
-
-        <
-        /div> < /
-        div > <
-        /div>
-
-
+          < div className='col-sm'>
+            < ul> { this.renderPlaylistDiff(this.state.playlist2Diff) } < /ul> < /div> < / div>
+                < /div>
       );
     }
 

@@ -17,8 +17,7 @@ class App extends Component {
     avatar:""
   }
 
-  setMain(playlistsData,userData,playlistData2){
-    let playlists = playlistsData.items.concat(playlistData2.items)
+  setMain(playlistsData,userData,playlists){
     this.setState({...this.state,playlistsData,userData,playlists,avatar:userData.images[0].url})
   }
 
@@ -33,7 +32,6 @@ class App extends Component {
   async postPlaylist(trackArray){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let backendUserData = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}`).then(data=>data.json())
-    console.log("here");
     await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${backendUserData.id}/playlists`,
       {
         method:"post",
@@ -46,7 +44,28 @@ class App extends Component {
         })
       }
     )
-    console.log("done?");
+  }
+
+  async compMountAvailable(){
+    let tokenObj = JSON.parse(localStorage.getItem("token"))
+    let userData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}`,{
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
+    }).then(data=>data.json())
+    let playlistData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists?limit=50`,{
+      headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
+    }).then(data=>data.json())
+    let playlists = playlistData.items
+    let remaining = playlistData.total - playlistData.offset
+    let off = 50
+    while(remaining > 0){
+      playlistData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists?offset=${off}&limit=50`,{
+        headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
+      }).then(data=>data.json())
+      off += 50
+      remaining = playlistData.total - playlistData.offset
+      playlists = playlists.concat(playlistData.items)
+    }
+    this.setMain(playlistData,userData,playlists)
   }
 
   async compMountDetailed(){
@@ -80,6 +99,7 @@ class App extends Component {
   }
 
   render() {
+    {console.log(this.state)}
     return (
       <div className="App">
         <Router>
@@ -87,7 +107,7 @@ class App extends Component {
             {this.state.avatar !== "" && <Navbar navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} />}
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
-              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists setMain = {this.setMain.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
+              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state}/>}/>
               <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist compMount = {this.compMountDetailed.bind(this)} state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
             </Switch>

@@ -109,10 +109,10 @@ class ComparePlaylist extends Component {
         <>
         <div className='container'>
           <div className='row'>
-          <div className='col-1'>
-            <PlaylistSidebar id={this.props.id}/>
+          <div className='col-3'>
+            <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId}/>
           </div>
-          <div className='col-11'>
+          <div className='col-9'>
             <div className='row'>
         <div className='col'>
         <table className="table">

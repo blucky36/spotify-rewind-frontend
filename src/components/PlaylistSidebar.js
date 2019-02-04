@@ -21,7 +21,7 @@ class PlaylistSidebar extends Component {
       {this.state.playlists.map(playlist => {
         return (
           <li {...this.props.currentPlaylistId===playlist['spotify_playlist_id']? {style:{fontWeight:900, textDecoration:'underline'}}: {style:{fontWeight:100}}} >
-            <Link to={`/compare/${playlist["spotify_playlist_id"]}`}>
+            <Link onClick = {()=>{this.props.changeState(playlist.spotify_playlist_id)}} to={`/compare/${playlist["spotify_playlist_id"]}`}>
               {playlist.name}
             </Link>
       </li>)

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom"
 import TrackCompare from './TrackCompare'
 import PlaylistSidebar from './PlaylistSidebar'
 import Navbar from './Navbar'
@@ -12,12 +11,10 @@ class ComparePlaylist extends Component {
     playlist2: [],
     playlist1Diff: [],
     playlist2Diff: [],
-    currentPlaylistId: window.location.href.split('/').slice(-1)[0],
-    singleVersion: false
+    currentPlaylistId: window.location.href.split('/').slice(-1)[0]
   }
 
   componentDidMount = async () => {
-    let tokenObj = JSON.parse(localStorage.getItem("token"))
     // const versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${this.props.id}/playlists/${this.state.currentPlaylistId}/versions`)
     // const versionsJSON = await versions.json()
     //
@@ -35,42 +32,17 @@ class ComparePlaylist extends Component {
     // })
     //
     // pl1.splice(Math.floor(Math.random() * pl1.length),1)
-    // await this.props.getFull()
-    //
-    // let backendData = this.props.fullBackend
-    // let allPlaylists = this.props.fullBackend.pArr
-    // let allVersions = this.props.fullBackend.verArr
-    // let allSongs = this.props.fullBackend.tracks
-    // let allRelatedPlaylists = allPlaylists.filter(p=>p.spotify_playlist_id===this.state.currentPlaylistId)
-    // if(allRelatedPlaylists.length===1){
-    //   //short circuit
-    // }
-    // let latestPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-1].id
-    // let prevPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-2].id
-    // console.log(latestPlaylistId,prevPlaylistId,"playlistids");
-    // let prevVersionId = allVersions.find(v=>v.playlist_id === prevPlaylistId).id
-    // let latestVersionId = allVersions.find(v=>v.playlist_id === latestPlaylistId).id
-    // console.log(prevVersionId,latestVersionId,"versionids")
-    // let latestTrackArray = backendData.tracks.latestVersionId
-    // let prevTrackArray = backendData.tracks.prevVersionId
-    // let pl1=[...prevTrackArray],pl2=[...latestTrackArray]
-    // console.log(pl1,pl2);
-    let pl1=[],pl2=[]
-    let versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions`).then(data=>data.json())
-    console.log(versions);
-    let versionTracks = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions/${versions[0].id}`).then(data=>data.json())
-    if (versions.length <= 1){
-      pl1 = versionTracks
-      pl2 = []
-      this.setState({...this.state,singleVersion:true})
-    }
-    else {
-      let versionsTracksLatest = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions/${versions[versions.length-1].id}`).then(data=>data.json())
-      pl1 = versionTracks
-      pl2 = versionsTracksLatest
-    }
-      console.log(pl1,"tracksNew",pl2,"tracksLatest");
-      const diffArr = diff.diffArrays(pl1, pl2)
+
+    let backendData = this.props.fullBackend
+    let allPlaylists = this.props.fullBackend.pArr
+    let allVersions = this.props.fullBackend.verArr
+    let allSongs = this.props.fullBackend.tracks
+    let allRelatedPlaylists = allPlaylists.filter(p=>p.spotify_playlist_id===this.state.currentPlaylistId)
+    let latestPlaylist = allRelatedPlaylists[allRelatedPlaylists.length-1]
+    let prevPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-2]
+    console.log(backendData,this.state.currentPlaylistId);
+    let pl1 = [],pl2=[]
+    const diffArr = diff.diffArrays(pl1, pl2)
 
     let oldPl = []
     let newPl = []
@@ -95,10 +67,8 @@ class ComparePlaylist extends Component {
       })
     })
 
-    console.log(diffArr)
-
     newPl.forEach(item => {
-      if (item && item.moved) {
+      if (item.moved) {
         oldPl = oldPl.map(oldItem => {
           if (oldItem['spotify_id'] === item['spotify_id']) return { ...oldItem, moved: true }
           return oldItem
@@ -140,15 +110,9 @@ class ComparePlaylist extends Component {
         <div className='container'>
           <div className='row'>
           <div className='col-3'>
-            <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId}/>
-          </div>
-          <div className='col-9'>
-          <div className='col-2'>
-            <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
-            <h5>Backed up playlists</h5>
             <PlaylistSidebar id={this.props.id}/>
           </div>
-          <div className='col-10'>
+          <div className='col-9'>
             <div className='row'>
         <div className='col'>
         <table className="table">
@@ -162,7 +126,6 @@ class ComparePlaylist extends Component {
             { this.renderPlaylistDiff(this.state.playlist1Diff) }
           </tbody>
         </table>
-        {this.state.singleVersion && <h3>Your playlist is up to date!</h3>}
     </div>
         <div className='col'>
         <table className="table">

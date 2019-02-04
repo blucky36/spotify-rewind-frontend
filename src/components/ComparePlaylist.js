@@ -12,12 +12,14 @@ class ComparePlaylist extends Component {
     playlist2: [],
     playlist1Diff: [],
     playlist2Diff: [],
-    currentPlaylistId: window.location.href.split('/').slice(-1)[0],
+    currentPlaylistId: "",
     singleVersion: false
   }
 
   componentDidMount = async () => {
     let tokenObj = JSON.parse(localStorage.getItem("token"))
+    let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
+    // this.setState({...this.state,currentPlaylistId:window.location.href.split('/').slice(-1)[0]})
     // const versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${this.props.id}/playlists/${this.state.currentPlaylistId}/versions`)
     // const versionsJSON = await versions.json()
     //
@@ -56,16 +58,16 @@ class ComparePlaylist extends Component {
     // let pl1=[...prevTrackArray],pl2=[...latestTrackArray]
     // console.log(pl1,pl2);
     let pl1=[],pl2=[]
-    let versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions`).then(data=>data.json())
+    let versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${currentPlaylistId}/versions`).then(data=>data.json())
     console.log(versions);
-    let versionTracks = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions/${versions[0].id}`).then(data=>data.json())
+    let versionTracks = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${currentPlaylistId}/versions/${versions[0].id}`).then(data=>data.json())
     if (versions.length <= 1){
       pl1 = versionTracks
       pl2 = []
       this.setState({...this.state,singleVersion:true})
     }
     else {
-      let versionsTracksLatest = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions/${versions[versions.length-1].id}`).then(data=>data.json())
+      let versionsTracksLatest = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${currentPlaylistId}/versions/${versions[versions.length-1].id}`).then(data=>data.json())
       pl1 = versionTracks
       pl2 = versionsTracksLatest
     }
@@ -112,7 +114,8 @@ class ComparePlaylist extends Component {
         playlist1: pl1,
         playlist2: pl2,
         playlist1Diff: oldPl,
-        playlist2Diff: newPl
+        playlist2Diff: newPl,
+        currentPlaylistId
       })
     })
 
@@ -134,17 +137,21 @@ class ComparePlaylist extends Component {
         })
     }
 
+    changeCurrentPlaylistId(currentPlaylistId){
+      this.setState({...this.state,currentPlaylistId})
+    }
+
     render() {
       return (
         <>
         <div className='container'>
           <div className='row'>
-          <div className='col-2'>
+          <div className='col-3'>
             <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
             <h5>Backed up playlists</h5>
-            <PlaylistSidebar id={this.props.id}/>
+            <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.changeCurrentPlaylistId.bind(this)}/>
           </div>
-          <div className='col-10'>
+          <div className='col-9'>
             <div className='row'>
         <div className='col'>
         <table className="table">

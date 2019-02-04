@@ -18,7 +18,7 @@ class PlaylistSidebar extends Component {
     return (
       <ul style={{listStyleType:'none'}}>
       {this.state.playlists.map(playlist => {
-        return (<li>{playlist.name}</li>)
+        return (<li {...this.props.currentPlaylistId===playlist['spotify_playlist_id']? {style:{fontWeight:900, textDecoration:'underline'}}: {style:{fontWeight:100}}} >{playlist.name}</li>)
       })}
 
     </ul>

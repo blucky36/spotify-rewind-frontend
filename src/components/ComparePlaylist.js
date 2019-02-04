@@ -15,19 +15,33 @@ class ComparePlaylist extends Component {
   }
 
   componentDidMount = async () => {
-    const playlistReq = await fetch(`http://localhost:3005/api/users/${this.props.id}/playlists/${this.state.currentPlaylistId}/versions`)
-    const playlistActual = await playlistReq.json()
+    // const versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${this.props.id}/playlists/${this.state.currentPlaylistId}/versions`)
+    // const versionsJSON = await versions.json()
+    //
+    // console.log(versionsJSON)
+    //
+    //
+    //
+    // const pl1 = [...versionsJSON[0]]
+    // const versionToUse = [...versions[0]]
+    // const pl2 = []
+    // pl1.forEach(plItem => {
+    //   if (Math.random() > 0.3) {
+    //     pl2.push(versionToUse.splice(Math.floor(Math.random() * versionToUse.length), 1)[0])
+    //   }
+    // })
+    //
+    // pl1.splice(Math.floor(Math.random() * pl1.length),1)
 
-    const pl1 = [...playlistActual]
-    const pl2 = []
-    pl1.forEach(plItem => {
-      if (Math.random() > 0.3) {
-        pl2.push(playlistActual.splice(Math.floor(Math.random() * playlistActual.length), 1)[0])
-      }
-    })
-
-    pl1.splice(Math.floor(Math.random() * pl1.length),1)
-
+    let backendData = this.props.fullBackend
+    let allPlaylists = this.props.fullBackend.pArr
+    let allVersions = this.props.fullBackend.verArr
+    let allSongs = this.props.fullBackend.tracks
+    let allRelatedPlaylists = allPlaylists.filter(p=>p.spotify_playlist_id===this.state.currentPlaylistId)
+    let latestPlaylist = allRelatedPlaylists[allRelatedPlaylists.length-1]
+    let prevPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-2]
+    console.log(backendData,this.state.currentPlaylistId);
+    let pl1 = [],pl2=[]
     const diffArr = diff.diffArrays(pl1, pl2)
 
     let oldPl = []

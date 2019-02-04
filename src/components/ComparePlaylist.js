@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from "react-router-dom"
 import TrackCompare from './TrackCompare'
 import PlaylistSidebar from './PlaylistSidebar'
 import Navbar from './Navbar'
@@ -138,10 +139,12 @@ class ComparePlaylist extends Component {
         <>
         <div className='container'>
           <div className='row'>
-          <div className='col-1'>
+          <div className='col-2'>
+            <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
+            <h5>Backed up playlists</h5>
             <PlaylistSidebar id={this.props.id}/>
           </div>
-          <div className='col-11'>
+          <div className='col-10'>
             <div className='row'>
         <div className='col'>
         <table className="table">

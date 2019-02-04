@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Track from "./Track.js"
+import { Link } from "react-router-dom"
 
 class DetailedPlayliest extends Component {
 
@@ -12,7 +13,7 @@ class DetailedPlayliest extends Component {
       <div>
         <div className="row">
           <div className="col-2">
-            <button  type = "button" className="btn btn-primary">Select Version</button>
+            <Link to="/compare" className="btn btn-primary">Compare With Previous</Link>
           </div>
           <div className="col-8"></div>
           <div className = "col-2"></div>

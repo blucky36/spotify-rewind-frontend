@@ -13,7 +13,7 @@ class DetailedPlayliest extends Component {
       <div>
         <div className="row">
           <div className="col-2">
-            <Link to="/compare" className="btn btn-primary">Compare With Previous</Link>
+            <Link to={`/compare/${window.location.href.split("/")[window.location.href.split("/").length-1]}`} className="btn btn-primary">Compare With Previous</Link>
           </div>
           <div className="col-8"></div>
           <div className = "col-2"></div>

@@ -15,12 +15,12 @@ class PlaylistSidebar extends Component {
 
   render() {
     return (
-      <>
+      <p>
       {this.state.playlists.map(playlist => {
         return playlist.name
       })}
 
-      </>
+      </p>
     );
   }
 

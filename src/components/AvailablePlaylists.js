@@ -5,6 +5,7 @@ export default class AvailablePlaylists extends Component {
 
   async componentDidMount(){
     this.props.compMount()
+    this.props.compMountBack()
   }
 
   render(){

@@ -143,6 +143,12 @@ class ComparePlaylist extends Component {
             <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId}/>
           </div>
           <div className='col-9'>
+          <div className='col-2'>
+            <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
+            <h5>Backed up playlists</h5>
+            <PlaylistSidebar id={this.props.id}/>
+          </div>
+          <div className='col-10'>
             <div className='row'>
         <div className='col'>
         <table className="table">

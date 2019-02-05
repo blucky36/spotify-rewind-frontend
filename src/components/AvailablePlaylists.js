@@ -8,6 +8,10 @@ export default class AvailablePlaylists extends Component {
     this.props.compMountBack()
   }
 
+  noPlaylists = () => {
+    return (<div style={{width:'100%', marginTop:10, fontStyle:'italic'}} className='d-inline-flex p-2 justify-content-center'><h4>You have no playlists to back up!</h4></div>)
+  }
+
   render(){
     return(
       <div>
@@ -19,7 +23,7 @@ export default class AvailablePlaylists extends Component {
           <div className = "col-6"><h3>Choose a playlist you want to backup</h3></div>
           <div className="col-2"></div>
         </div>
-        {this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>)}
+        {this.props.state.playlists.length > 0 ?this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>):this.noPlaylists()}
       </div>
     )
   }

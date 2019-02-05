@@ -235,14 +235,14 @@ class ComparePlaylist extends Component {
     render() {
       return (
         <>
-          <div className='container'>
+          <div className='container-fluid'>
             <div className='row'>
-              <div className='col-3'>
+              <div className='col-2'>
                 <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
                 <h5>Backed up playlists</h5>
                 <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.changeCurrentPlaylistId.bind(this)}/>
               </div>
-              <div className='col-8'>
+              <div className='col-9'>
                 <div className='row'>
                   <div className='col-6'>
                     <h5>Current Playlist Version</h5>

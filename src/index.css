@@ -46,7 +46,7 @@ body{
 }
 
 .playlist::before {
-  content: '🎜';
+  content: '\1f39c';
   padding-right: 1em;
 }
 
@@ -73,6 +73,7 @@ audio{
 
 .btn {
   border-radius: 300px !important;
+  font-size: 1.1rem;
 }
 
 .btn-primary {

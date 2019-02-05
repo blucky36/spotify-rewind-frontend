@@ -10,9 +10,9 @@ export default class AvailablePlaylists extends Component {
 
   noPlaylists = () => {
     if (this.props.state.awaitingAvailable) {
-      return (<div style={{width:'100%', marginTop:10}} className='d-inline-flex p-2 justify-content-center'><div className='fidget'></div></div>)
+      return (<div style={{width:'100%', marginTop:10}} ><div className='fidget col-6 offset-md-2'></div></div>)
     } else {
-      return (<div style={{width:'100%', marginTop:10, fontStyle:'italic'}} className='d-inline-flex p-2 justify-content-center'><h4>You have no playlists to back up!</h4></div>)
+      return (<div style={{width:'100%', marginTop:10, fontStyle:'italic'}} className='col-6 offset-md-2'><h4>You have no playlists to back up!</h4></div>)
     }
   }
 

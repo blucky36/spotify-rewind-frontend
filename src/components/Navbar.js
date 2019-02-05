@@ -3,7 +3,7 @@ import {Link} from "react-router-dom"
 
 const Navbar = (props) => (
   <nav id="black"className="navbar">
-    <Link className="navbar-brand" to="/availableplaylists">
+    <Link className="navbar-brand" {...props.navState.name ? { to:"/availableplaylists"} : {to:'/'} }>
       <img src="./images/spotify_rewind_transparent.svg" width="50" height="50" alt=""/>
     </Link>
     <img src = {props.navState.avatar} style={{borderRadius:'10%'}} height={50} alt = ""/>

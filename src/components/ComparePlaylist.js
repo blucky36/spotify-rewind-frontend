@@ -16,47 +16,9 @@ class ComparePlaylist extends Component {
     singleVersion: false
   }
 
-  componentDidMount = async () => {
+  async reload(){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
-    // this.setState({...this.state,currentPlaylistId:window.location.href.split('/').slice(-1)[0]})
-    // const versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${this.props.id}/playlists/${this.state.currentPlaylistId}/versions`)
-    // const versionsJSON = await versions.json()
-    //
-    // console.log(versionsJSON)
-    //
-    //
-    //
-    // const pl1 = [...versionsJSON[0]]
-    // const versionToUse = [...versions[0]]
-    // const pl2 = []
-    // pl1.forEach(plItem => {
-    //   if (Math.random() > 0.3) {
-    //     pl2.push(versionToUse.splice(Math.floor(Math.random() * versionToUse.length), 1)[0])
-    //   }
-    // })
-    //
-    // pl1.splice(Math.floor(Math.random() * pl1.length),1)
-    // await this.props.getFull()
-    //
-    // let backendData = this.props.fullBackend
-    // let allPlaylists = this.props.fullBackend.pArr
-    // let allVersions = this.props.fullBackend.verArr
-    // let allSongs = this.props.fullBackend.tracks
-    // let allRelatedPlaylists = allPlaylists.filter(p=>p.spotify_playlist_id===this.state.currentPlaylistId)
-    // if(allRelatedPlaylists.length===1){
-    //   //short circuit
-    // }
-    // let latestPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-1].id
-    // let prevPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-2].id
-    // console.log(latestPlaylistId,prevPlaylistId,"playlistids");
-    // let prevVersionId = allVersions.find(v=>v.playlist_id === prevPlaylistId).id
-    // let latestVersionId = allVersions.find(v=>v.playlist_id === latestPlaylistId).id
-    // console.log(prevVersionId,latestVersionId,"versionids")
-    // let latestTrackArray = backendData.tracks.latestVersionId
-    // let prevTrackArray = backendData.tracks.prevVersionId
-    // let pl1=[...prevTrackArray],pl2=[...latestTrackArray]
-    // console.log(pl1,pl2);
     let pl1=[],pl2=[]
     let versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${currentPlaylistId}/versions`).then(data=>data.json())
     console.log(versions);
@@ -118,6 +80,49 @@ class ComparePlaylist extends Component {
         currentPlaylistId
       })
     })
+  }
+
+  componentDidMount = async () => {
+    await this.reload()
+    // this.setState({...this.state,currentPlaylistId:window.location.href.split('/').slice(-1)[0]})
+    // const versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${this.props.id}/playlists/${this.state.currentPlaylistId}/versions`)
+    // const versionsJSON = await versions.json()
+    //
+    // console.log(versionsJSON)
+    //
+    //
+    //
+    // const pl1 = [...versionsJSON[0]]
+    // const versionToUse = [...versions[0]]
+    // const pl2 = []
+    // pl1.forEach(plItem => {
+    //   if (Math.random() > 0.3) {
+    //     pl2.push(versionToUse.splice(Math.floor(Math.random() * versionToUse.length), 1)[0])
+    //   }
+    // })
+    //
+    // pl1.splice(Math.floor(Math.random() * pl1.length),1)
+    // await this.props.getFull()
+    //
+    // let backendData = this.props.fullBackend
+    // let allPlaylists = this.props.fullBackend.pArr
+    // let allVersions = this.props.fullBackend.verArr
+    // let allSongs = this.props.fullBackend.tracks
+    // let allRelatedPlaylists = allPlaylists.filter(p=>p.spotify_playlist_id===this.state.currentPlaylistId)
+    // if(allRelatedPlaylists.length===1){
+    //   //short circuit
+    // }
+    // let latestPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-1].id
+    // let prevPlaylistId = allRelatedPlaylists[allRelatedPlaylists.length-2].id
+    // console.log(latestPlaylistId,prevPlaylistId,"playlistids");
+    // let prevVersionId = allVersions.find(v=>v.playlist_id === prevPlaylistId).id
+    // let latestVersionId = allVersions.find(v=>v.playlist_id === latestPlaylistId).id
+    // console.log(prevVersionId,latestVersionId,"versionids")
+    // let latestTrackArray = backendData.tracks.latestVersionId
+    // let prevTrackArray = backendData.tracks.prevVersionId
+    // let pl1=[...prevTrackArray],pl2=[...latestTrackArray]
+    // console.log(pl1,pl2);
+
 
   }
 
@@ -137,8 +142,9 @@ class ComparePlaylist extends Component {
         })
     }
 
-    changeCurrentPlaylistId(currentPlaylistId){
-      this.setState({...this.state,currentPlaylistId})
+    async changeCurrentPlaylistId(currentPlaylistId){
+      //this.reload()
+      this.setState({...this.state,currentPlaylistId}, this.reload)
     }
 
     render() {

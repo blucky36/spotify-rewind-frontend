@@ -103,20 +103,31 @@ class App extends Component {
   async compMountBack(){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let everything = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/all`).then(data=>data.json())
-    console.log(everything);
     this.setState({...this.state,fullBackend:everything})
   }
 
+  logout = () => {
+    localStorage.removeItem('token')
+    this.setstate(() => ({
+    playlistsData: {},
+    playlists:[],
+    userData: {},
+    selected: {},
+    selectedPlaylistTracks:[],
+    avatar:"",
+    fullBackend:{}
+    }))
+  }
+
   render() {
-    {console.log(this.state)}
     return (
       <div className="App">
         <Router>
           <div className ="container-fluid">
-            {this.state.avatar !== "" && <Navbar navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} />}
+            <Navbar logout={this.logout} navState = {{avatar:this.state.avatar,name:this.state.userData.display_name}} />
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
-              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state} compMountBack={this.compMountBack.bind(this)}/>}/>
+              <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)} state={this.state} compMountBack={this.compMountBack.bind(this)}/>}/>
               <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist compMount = {this.compMountDetailed.bind(this)} state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
               <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id} selectedTracks = {this.state.selectedPlaylistTracks} fullBackend = {this.state.fullBackend} getFull={this.compMountBack.bind(this)}/>} />

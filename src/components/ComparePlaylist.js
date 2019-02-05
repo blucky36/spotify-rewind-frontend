@@ -84,6 +84,7 @@ class ComparePlaylist extends Component {
   }
 
   async reload(){
+    this.setState({...this.state,singleVersion:false})
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
     let pl1=[],pl2=[]
@@ -187,60 +188,98 @@ class ComparePlaylist extends Component {
     }
 
     render() {
-      return (
-        <>
-          <div className='container'>
-            <div className='row'>
-              <div className='col-3'>
-                <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
-                <h5>Backed up playlists</h5>
-                <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.changeCurrentPlaylistId.bind(this)}/>
-              </div>
-              <div className='col-8'>
-                <div className='row'>
-                  <div className='col-6'>
-                    <h5>Current Version</h5>
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Song</th>
-                          <th scope="col">Artist</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        { this.renderPlaylistDiff(this.state.playlist2Diff) }
-                      </tbody>
-                    </table>
-                  </div>
-                  <div className='col-6'>
-                    <h5>Previous Version</h5>
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th scope="col">Song</th>
-                          <th scope="col">Artist</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        { this.renderPlaylistDiff(this.state.playlist1Diff) }
-                      </tbody>
-                    </table>
+      if(this.state.singleVersion){
+        return(
+          <>
+            <div className='container-fluid'>
+              <div className='row'>
+                <div className='col-3'>
+                  <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
+                  <h5>Backed up playlists</h5>
+                  <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.changeCurrentPlaylistId.bind(this)}/>
+                </div>
+                <div className='col-8'>
+                  <div className='row'>
+                    <div className='col-12'>
+                      <h5>Current Version</h5>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Song</th>
+                            <th scope="col">Artist</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          { this.renderPlaylistDiff(this.state.playlist1Diff) }
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="col-1">
-                <label>select version</label>
-                <select onChange={(e)=>{this.handleChange(e)}}>
-                  {this.state.versions.map((version,idx)=><SelectVersion key = {idx} version={version}/>)}
-                </select>
+                <div className="col-1">
+                  <label>select version</label>
+                  <select onChange={(e)=>{this.handleChange(e)}}>
+                    {this.state.versions.map((version,idx)=><SelectVersion key = {idx} version={version}/>)}
+                  </select>
+                </div>
               </div>
             </div>
-          </div>
-        </>
-
-      );
+          </>
+        )
+      }else{
+        return (
+          <>
+            <div className='container-fluid'>
+              <div className='row'>
+                <div className='col-3'>
+                  <Link to ="/availableplaylists" className="btn btn-primary">Back up another playlist</Link>
+                  <h5>Backed up playlists</h5>
+                  <PlaylistSidebar id={this.props.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.changeCurrentPlaylistId.bind(this)}/>
+                </div>
+                <div className='col-8'>
+                  <div className='row'>
+                    <div className='col-6'>
+                      <h5>Current Version</h5>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Song</th>
+                            <th scope="col">Artist</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          { this.renderPlaylistDiff(this.state.playlist2Diff) }
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className='col-6'>
+                      <h5>Previous Version</h5>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Song</th>
+                            <th scope="col">Artist</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          { this.renderPlaylistDiff(this.state.playlist1Diff) }
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-1">
+                  <label>select version</label>
+                  <select onChange={(e)=>{this.handleChange(e)}}>
+                    {this.state.versions.map((version,idx)=><SelectVersion key = {idx} version={version}/>)}
+                  </select>
+                </div>
+              </div>
+            </div>
+          </>
+        )
+      }
     }
-
   }
 
   export default ComparePlaylist;

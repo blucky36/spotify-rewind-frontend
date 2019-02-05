@@ -16,11 +16,12 @@ class App extends Component {
     selected: {},
     selectedPlaylistTracks:[],
     avatar:"",
-    fullBackend:{}
+    fullBackend:{},
+    awaitingAvailable:false
   }
 
   setMain(playlistsData,userData,playlists){
-    this.setState({...this.state,playlistsData,userData,playlists,avatar:userData.images[0].url})
+    this.setState({...this.state,playlistsData,userData,playlists,avatar:userData.images[0].url, awaitingAvailable:false})
   }
 
   selectPlaylist(selectedObj){
@@ -49,6 +50,7 @@ class App extends Component {
   }
 
   async compMountAvailable(){
+    await this.setState({awaitingAvailable:true})
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let userData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}`,{
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}

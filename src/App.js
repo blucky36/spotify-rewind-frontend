@@ -119,7 +119,7 @@ class App extends Component {
               <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)}state={this.state} compMountBack={this.compMountBack.bind(this)}/>}/>
               <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist compMount = {this.compMountDetailed.bind(this)} state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
-              <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id} fullBackend = {this.state.fullBackend} />} />
+              <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id} selectedTracks = {this.state.selectedPlaylistTracks} fullBackend = {this.state.fullBackend} getFull={this.compMountBack.bind(this)}/>} />
             </Switch>
           </div>
         </Router>

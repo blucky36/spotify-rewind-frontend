@@ -28,6 +28,36 @@ body{
   font-size: 150%;
 }
 
+.playlist {
+  color: #888888;
+}
+
+.playlist-available {
+  font-size: 150%;
+}
+.playlist-sidebar {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.playlist:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+.playlist::before {
+  content: '🎜';
+  padding-right: 1em;
+}
+
+.playlist-current {
+  border-left: 3px solid #2947e1;
+}
+
+.playlist-container {
+  padding-top: 20;
+}
+
 .loginTitle {
   margin-top: 10%;
   margin-bottom: 5%;
@@ -39,6 +69,15 @@ body{
 
 audio{
   background:#222222;  /*doesnt work */
+}
+
+.btn {
+  border-radius: 300px !important;
+}
+
+.btn-primary {
+  background-color: #2947e1;
+  border-color: #2947e1;
 }
 
 @keyframes spin{100%{transform: rotate(24000deg)}}

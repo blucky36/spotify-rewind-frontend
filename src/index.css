@@ -46,7 +46,7 @@ body{
 }
 
 .playlist::before {
-  content: '🎜';
+  content: '\1f39c';
   padding-right: 1em;
 }
 

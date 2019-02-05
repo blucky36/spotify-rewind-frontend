@@ -34,7 +34,6 @@ class App extends Component {
 
   async postPlaylist(trackArray){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
-    // let backendUserData = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}`).then(data=>data.json())
     await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists`,
       {
         method:"post",
@@ -43,7 +42,23 @@ class App extends Component {
           spotify_playlist_id:this.state.selected.id,
           name:this.state.selected.name,
           notes:"oibruv",
+          snapshot_id:this.state.selected.snapshot_id,
           trackArray:trackArray
+        })
+      }
+    )
+  }
+
+  async postVersion(trackArray){
+    let tokenObj = JSON.parse(localStorage.getItem("token"))
+    await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.selected.id}/versions`,
+      {
+        method:"post",
+        headers:{"Content-Type": "application/json","Accept": "application/json"},
+        body:JSON.stringify({
+          snapshot_id:this.state.selected.snapshot_id,
+          notes:"oibruvOIOIOIOIOI",
+          trackArray
         })
       }
     )
@@ -100,6 +115,13 @@ class App extends Component {
     }
     this.postPlaylist(trackArray)
     this.grabTracks(trackArray)
+    //new stuff
+    let backVersions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${playlistId}/versions`).then(data=>data.json())
+    let snapshotIdArr = backVersions.map(ver=>ver.snapshot_id)
+    if(!snapshotIdArr.includes(this.state.selected.snapshot_id)){
+      this.postVersion(trackArray)
+      console.log("success");
+    }
   }
 
   async compMountBack(){

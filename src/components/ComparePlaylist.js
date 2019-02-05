@@ -26,13 +26,8 @@ class ComparePlaylist extends Component {
     let pl2= versionTracksChange
     let compare1 = pl1.map(t=>t.spotify_id)
     let compare2 = pl2.map(t=>t.spotify_id)
-    console.log(compare1,compare2);
     const difArr = diff.diffArrays(compare1, compare2)
-    // const diffArr = diff.diffArrays(pl1,pl2)
-
-    let oldPl = []
-    let newPl = []
-    console.log(difArr);
+    let oldPl = [],newPl = []
     if(difArr.length === 1){
       for(let i = 0; i<difArr[0].value.length; i++){
         let idx = pl1.findIndex(t=>t.spotify_id === difArr[0].value[i])
@@ -40,27 +35,7 @@ class ComparePlaylist extends Component {
         newPl.push({...pl2[idx]})
       }
     }
-    else if(difArr.length === 2){
-      // difArr.forEach(diffObj => {
-      //   diffObj.value.forEach(val => {
-      //     if (diffObj.added) {
-      //       if (pl1.includes(val)) {
-      //         newPl.push({ ...val, moved: true })
-      //         oldPl.push({})
-      //       } else {
-      //         newPl.push({ ...val, added: true })
-      //         oldPl.push({})
-      //       }
-      //     } else if (diffObj.removed) {
-      //       newPl.push({})
-      //       oldPl.push({ ...val, removed: true })
-      //     } else {
-      //       newPl.push(val)
-      //       oldPl.push(val)
-      //     }
-      //   })
-      // })
-      //
+    else if(difArr.length > 1){
       difArr.forEach(diffObj => {
         for(let i = 0; i< diffObj.value.length; i++){
           if(diffObj.added){
@@ -77,7 +52,7 @@ class ComparePlaylist extends Component {
           else if(diffObj.removed){
             let idx = pl2.findIndex(t=>t.spotify_id === diffObj.value[i])
             newPl.push({})
-            oldPl.push({...pl2[idx], removed: true})
+            oldPl.push({...pl2[idx],removed:true})
           }else{
             let idx = pl1.findIndex(t=>t.spotify_id === diffObj.value[i])
             newPl.push({...pl1[idx]})
@@ -113,7 +88,6 @@ class ComparePlaylist extends Component {
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
     let pl1=[],pl2=[]
     let versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${currentPlaylistId}/versions`).then(data=>data.json())
-    //console.log(versions);
     let versionTracks = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${currentPlaylistId}/versions/${versions[0].id}`).then(data=>data.json())
     if (versions.length <= 1){
       pl1 = versionTracks
@@ -141,26 +115,6 @@ class ComparePlaylist extends Component {
       }
     }
     else if(difArr.length === 2){
-      // difArr.forEach(diffObj => {
-      //   diffObj.value.forEach(val => {
-      //     if (diffObj.added) {
-      //       if (pl1.includes(val)) {
-      //         newPl.push({ ...val, moved: true })
-      //         oldPl.push({})
-      //       } else {
-      //         newPl.push({ ...val, added: true })
-      //         oldPl.push({})
-      //       }
-      //     } else if (diffObj.removed) {
-      //       newPl.push({})
-      //       oldPl.push({ ...val, removed: true })
-      //     } else {
-      //       newPl.push(val)
-      //       oldPl.push(val)
-      //     }
-      //   })
-      // })
-      //
       difArr.forEach(diffObj => {
         for(let i = 0; i< diffObj.value.length; i++){
           if(diffObj.added){

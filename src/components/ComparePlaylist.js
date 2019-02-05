@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import TrackCompare from './TrackCompare'
 import PlaylistSidebar from './PlaylistSidebar'
 import Navbar from './Navbar'
+import {Link} from "react-router-dom"
 const diff = require('diff')
+
 
 class ComparePlaylist extends Component {
 

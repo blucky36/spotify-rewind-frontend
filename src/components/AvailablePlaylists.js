@@ -9,7 +9,7 @@ export default class AvailablePlaylists extends Component {
   }
 
   noPlaylists = () => {
-    return (<div style={{width:'100%', fontStyle:'italic'}} className='d-inline-flex p-2 justify-content-center'><h4>You have no playlists to back up!</h4></div>)
+    return (<div style={{width:'100%', fontStyle:'italic'}}><h4>You have no playlists to back up!</h4></div>)
   }
 
   render(){
@@ -23,7 +23,7 @@ export default class AvailablePlaylists extends Component {
           <div className = "col-6"><h3>Choose a playlist you want to backup</h3></div>
           <div className="col-2"></div>
         </div>
-        <div className='playlist-container col-6 offset-md-3'>
+        <div className='playlist-container col-8 offset-md-4'>
           {this.props.state.playlists.length > 0 ?this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>):this.noPlaylists()}
         </div>
       </div>

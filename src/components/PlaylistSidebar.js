@@ -20,8 +20,8 @@ class PlaylistSidebar extends Component {
       <ul style={{listStyleType:'none'}}>
       {this.state.playlists.map((playlist,i) => {
         return (
-          <li key = {i} {...this.props.currentPlaylistId===playlist['spotify_playlist_id'] ? {style:{fontWeight:900, textDecoration:'underline'}}: {style:{fontWeight:100}}} >
-            <Link key = {i} onClick = {()=>{this.props.changeState(playlist.spotify_playlist_id)}} to={`/compare/${playlist["spotify_playlist_id"]}`}>
+          <li key = {i}>
+            <Link key = {i} onClick = {()=>{this.props.changeState(playlist.spotify_playlist_id)}} to={`/compare/${playlist["spotify_playlist_id"]}`} {...this.props.currentPlaylistId===playlist['spotify_playlist_id']? {style:{paddingLeft:10},className:'playlist playlist-current'}: {className:'playlist',style:{paddingLeft:13}} } >
               {playlist.name}
             </Link>
           </li>

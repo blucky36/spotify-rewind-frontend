@@ -27,7 +27,9 @@ export default class AvailablePlaylists extends Component {
           <div className = "col-6"><h3>Choose a playlist you want to backup</h3></div>
           <div className="col-2"></div>
         </div>
-        {this.props.state.playlists.length > 0 ?this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>):this.noPlaylists()}
+        <div className='playlist-container col-8 offset-md-4'>
+          {this.props.state.playlists.length > 0 ?this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>):this.noPlaylists()}
+        </div>
       </div>
     )
   }

@@ -21,7 +21,6 @@ class DetailedPlayliest extends Component {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Cover</th>
               <th scope="col">Song</th>
               <th scope="col">Artist</th>

@@ -28,6 +28,10 @@ class App extends Component {
     this.setState({...this.state,playlists})
   }
 
+  setVersions(playlistVersionArray){
+    this.setState({...this.state,playlistVersionArray})
+  }
+
   async changeDetailVersion(){
 
   }
@@ -169,7 +173,7 @@ class App extends Component {
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
               <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)} state={this.state} compMountBack={this.compMountBack.bind(this)} compMountDetailed = {this.compMountDetailed.bind(this)}/>}/>
-              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist changePLID = {this.changeCurrentPlaylistId.bind(this)} /*compMount = {this.compMountDetailed.bind(this)}*/ state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
+              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist changePLID = {this.changeCurrentPlaylistId.bind(this)} /*compMount = {this.compMountDetailed.bind(this)}*/ state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks} setVersions={this.setVersions.bind(this)}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
               <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id} selectedTracks = {this.state.selectedPlaylistTracks} fullBackend = {this.state.fullBackend} getFull={this.compMountBack.bind(this)}/>} />
             </Switch>

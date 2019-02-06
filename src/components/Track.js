@@ -8,13 +8,6 @@ const Track = (props) => (
     <td>{props.track.track.name}</td>
     <td>{props.track.track.artists[0].name}</td>
     <td>
-      <audio controls className="player">
-        <source src={`${props.track.track.preview_url}`} type="audio/mp3"/>
-      </audio>
-        <div>
-          <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>Play</button>
-          <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>Pause</button>
-        </div>
     </td>
   </tr>
 )

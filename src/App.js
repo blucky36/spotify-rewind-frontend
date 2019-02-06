@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Switch,Route,BrowserRouter as Router} from "react-router-dom"
 import LoginPage from './components/LoginPage'
 import AvailablePlaylists from './components/AvailablePlaylists'
-import DetailedPlaylist from './components/DetailedRevised.js'
+import DetailedPlaylist from './components/DetailedPlaylist.js'
 import HandleLogin from './components/HandleLogin'
 import Navbar from "./components/Navbar.js"
 import ComparePlaylist from './components/ComparePlaylist'
@@ -21,7 +21,7 @@ class App extends Component {
     currentVersionId:1,
     playlistVersionArray:[],
     currentPlaylistId:"",
-    backedPlaylists:[]
+    backedPlaylists: [],
   }
 
   async changeDetailPlaylist(playlists){
@@ -33,7 +33,7 @@ class App extends Component {
   }
 
   changeCurrentPlaylistId(currentPlaylistId){
-    this.setState({...this.state,currentPlaylistId})
+    this.setState({...this.state, currentPlaylistId})
   }
 
 
@@ -41,8 +41,8 @@ class App extends Component {
     this.setState({...this.state,playlistsData,userData,playlists,avatar:userData.images[0].url, awaitingAvailable:false})
   }
 
-  selectPlaylist(selectedObj){
-    this.setState({...this.state,selected:selectedObj})
+  async selectPlaylist(selectedObj){
+    await this.setState({...this.state,selected:selectedObj})
   }
 
   grabTracks(array){
@@ -87,6 +87,7 @@ class App extends Component {
     let userData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}`,{
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
     }).then(data=>data.json())
+
     let playlistData = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists?limit=50`,{
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
     }).then(data=>data.json())
@@ -106,7 +107,8 @@ class App extends Component {
 
   async compMountDetailed(pid){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
-    let playlistId = pid
+    let playlistId = window.location.href.split('/').slice(-1)[0]
+    console.log('starting spotify loop')
     let trackData = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?offset=0&limit=100`,{
       headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
     }).then(data=>data.json())
@@ -123,14 +125,16 @@ class App extends Component {
         len = str.split("")[0]+str.split("")[1]+str.split("")[2]
       }
       for(let i = 1; i <= Number(len); i++){
+        console.log('looping spotify requests',i)
         trackData = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks?offset=${i}00&limit=100`,{
           headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`}
         }).then(data=>data.json())
         trackArray = trackArray.concat(trackData.items)
       }
     }
-    this.postPlaylist(trackArray)
-    this.grabTracks(trackArray)
+    await this.postPlaylist(trackArray)
+    await this.grabTracks(trackArray)
+    await new Promise(resolve => setTimeout(resolve, 500))
     let backVersions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${playlistId}/versions`).then(data=>data.json())
     let snapshotIdArr = backVersions.map(ver=>ver.snapshot_id)
     if(!snapshotIdArr.includes(this.state.selected.snapshot_id)){
@@ -138,7 +142,8 @@ class App extends Component {
       console.log("success");
     }
     let backedPlaylists = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists`).then(data=>data.json())
-    this.setState({...this.state,backedPlaylists},()=>{console.log(this.state.backedPlaylists)})
+    this.setState({backedPlaylists:{...backedPlaylists, loadingPlaylists:false}},()=>{console.log(this.state.backedPlaylists)})
+    return {backedPlaylists, backVersions }
   }
 
   async compMountBack(){
@@ -169,7 +174,7 @@ class App extends Component {
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
               <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)} state={this.state} compMountBack={this.compMountBack.bind(this)} compMountDetailed = {this.compMountDetailed.bind(this)}/>}/>
-              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist changePLID = {this.changeCurrentPlaylistId.bind(this)} /*compMount = {this.compMountDetailed.bind(this)}*/ state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks}/>}/>
+              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist compMountDetailed={() => this.compMountDetailed()} changePLID = {this.changeCurrentPlaylistId.bind(this)} state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks} backedPlaylists={this.state.backedPlaylists}/>}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
               <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id} selectedTracks = {this.state.selectedPlaylistTracks} fullBackend = {this.state.fullBackend} getFull={this.compMountBack.bind(this)}/>} />
             </Switch>

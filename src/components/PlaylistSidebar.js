@@ -4,22 +4,19 @@ import {Link} from "react-router-dom"
 class PlaylistSidebar extends Component {
 
   state = {
-    playlists: [],
     currentPlaylistId:''
   }
     componentDidMount = async () => {
-      const userId = JSON.parse(localStorage.getItem("token"))
-      const playlists = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${userId.userId}/playlists`).then(data=>data.json())
-      this.setState({playlists, currentPlaylistId:this.props.currentPlaylistId})
+      this.setState({currentPlaylistId:this.props.currentPlaylistId})
     }
 
   render() {
     return (
       <ul style={{listStyleType:'none'}}>
-      {this.state.playlists.map((playlist,i) => {
+      {this.props.playlists.map((playlist,i) => {
         return (
           <li key = {i}>
-            <Link key = {i} onClick = {()=>{this.props.changeState(playlist.spotify_playlist_id)}} to={`/compare/${playlist["spotify_playlist_id"]}`} {...this.props.currentPlaylistId===playlist['spotify_playlist_id']? {style:{paddingLeft:10},className:'playlist playlist-current'}: {className:'playlist',style:{paddingLeft:13}} } >
+            <Link key = {i} onClick = {()=>{this.props.changeState(playlist.spotify_playlist_id)}} to={`/detailedplaylist/${playlist["spotify_playlist_id"]}`} {...this.props.currentPlaylistId===playlist['spotify_playlist_id']? {style:{paddingLeft:10},className:'playlist playlist-current'}: {className:'playlist',style:{paddingLeft:13}} } >
               {playlist.name}
             </Link>
           </li>

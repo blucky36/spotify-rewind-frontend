@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import Track from "./Track.js"
 import { Link } from "react-router-dom"
+import PlaylistSidebar from './PlaylistSidebar'
 
 class DetailedPlayliest extends Component {
 
@@ -18,6 +19,11 @@ class DetailedPlayliest extends Component {
           <div className="col-8"></div>
           <div className = "col-2"></div>
         </div>
+        <div className='row'>
+        <div className='col-2'>
+          <PlaylistSidebar  id={this.props.state.userData.id} currentPlaylistId={this.props.state.currentPlaylistId}/>
+        </div>
+        <div className='col-10'>
         <table className="table">
           <thead>
             <tr>
@@ -33,6 +39,8 @@ class DetailedPlayliest extends Component {
           </tbody>
         </table>
       </div>
+      </div>
+    </div>
     )
   }
 }

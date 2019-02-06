@@ -3,28 +3,39 @@ import Track from "./Track.js"
 import PlaylistSidebar from "./PlaylistSidebar.js"
 import SelectVersion from "./SelectVersion.js"
 import { Link } from "react-router-dom"
+import moment from "moment"
 
 export default class DetailedPlaylist extends Component {
 
   async componentDidMount(){
+    console.log(this.props.state.selectedPlaylistTracks);
     console.log(this.props)
     let versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${this.props.state.userData.id}/playlists/${this.props.state.selected.id}/versions`).then(data=>data.json())
     this.props.setVersions(versions)
   }
 
   async handleSendToSpotify(){
-    //post an array of uri's to spotify api
+    let time = moment().format("ll h:mm a")
+    let playlistName = this.props.state.arePlaylist?this.props.state.currentPlaylistName:this.props.state.selected.name
     let tokenObj = JSON.parse(localStorage.getItem("token"))
     let postPlaylist = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists`,
       {
         method:"post",
         headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`},
         body:JSON.stringify(
-          {"name":`Backup of ${tokenObj.name} : ${tokenObj.name}`,"public":"false"}
+          {"name":`Backup of ${playlistName} : ${time}`,"public":"false"}
         )
       }
     ).then(data=>data.json())
     console.log(postPlaylist)
+    let uriString = this.props.state.selectedPlaylistTracks.reduce((a,e,i)=>{
+      let uri = this.props.state.areVersion ? e.spotify_uri.split(":").join("%3A")+"," : e.track.uri.split(":").join("%3A")+","
+      a+=uri
+      return a
+    },"").slice(0,-1)
+    console.log(uriString);
+    await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}})
+    console.log("success?")
   }
 
 
@@ -40,10 +51,10 @@ export default class DetailedPlaylist extends Component {
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col">Cover</th>
+                  {!this.props.state.areVersion&&<th scope="col">Cover</th>}
                   <th scope="col">Song</th>
                   <th scope="col">Artist</th>
-                  <th scope="col">Preview</th>
+                  {!this.props.state.areVersion&&<th scope="col">Preview</th>}
                 </tr>
               </thead>
               <tbody>

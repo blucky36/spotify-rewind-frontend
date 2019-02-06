@@ -21,8 +21,10 @@ class App extends Component {
     currentVersionId:1,
     playlistVersionArray:[],
     currentPlaylistId:"",
+    currentPlaylistName:"",
     backedPlaylists:[],
-    areVersion:false
+    areVersion:false,
+    arePlaylist:false
   }
 
   async changeDetailPlaylist(playlists){
@@ -37,8 +39,8 @@ class App extends Component {
 
   }
 
-  changeCurrentPlaylistId(currentPlaylistId){
-    this.setState({...this.state,currentPlaylistId})
+  changeCurrentPlaylistId(currentPlaylistId,currentPlaylistName,arePlaylist = false){
+    this.setState({...this.state,currentPlaylistId,currentPlaylistName,arePlaylist})
   }
 
 
@@ -51,7 +53,6 @@ class App extends Component {
   }
 
   grabTracks(array,bool=false){
-    console.log(bool);
     this.setState({...this.state,selectedPlaylistTracks:array,areVersion:bool})
   }
 

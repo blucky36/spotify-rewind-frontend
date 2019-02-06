@@ -7,7 +7,6 @@ const SelectVersion = (props) => {
     let tokenObjChange = JSON.parse(localStorage.getItem("token"))
     let currentPlaylistIdChange = window.location.href.split('/').slice(-1)[0]
     let versionTracksChange = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObjChange.userId}/playlists/${window.location.href.split("/")[window.location.href.split("/").length-1]}/versions/${event.target.value}`).then(data=>data.json())
-    console.log(versionTracksChange)
     props.grabTracks(versionTracksChange,true)
   }
   return (

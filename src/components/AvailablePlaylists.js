@@ -5,7 +5,7 @@ export default class AvailablePlaylists extends Component {
 
   async componentDidMount(){
     this.props.compMount()
-    //this.props.compMountBack()
+    // this.props.compMountBack()
   }
 
   noPlaylists = () => {
@@ -28,7 +28,7 @@ export default class AvailablePlaylists extends Component {
           <div className="col-2"></div>
         </div>
         <div className='playlist-container col-8 offset-md-4'>
-          {this.props.state.playlists.length > 0 ?this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} select={this.props.selectPlaylist}/>):this.noPlaylists()}
+          {this.props.state.playlists.length > 0 ?this.props.state.playlists.map((playlist,i)=><Playlist key={i} playlist = {playlist} detail = {this.props.compMountDetailed} select={this.props.selectPlaylist}/>):this.noPlaylists()}
         </div>
       </div>
     )

@@ -17,7 +17,10 @@ class App extends Component {
     selectedPlaylistTracks:[],
     avatar:"",
     fullBackend:{},
-    awaitingAvailable:false
+    awaitingAvailable:false,
+    currentVersionId:1,
+    playlistVersionArray:[],
+    currentPlaylistId:""
   }
 
   setMain(playlistsData,userData,playlists){

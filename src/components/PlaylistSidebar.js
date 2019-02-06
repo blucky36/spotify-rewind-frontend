@@ -8,10 +8,8 @@ class PlaylistSidebar extends Component {
     currentPlaylistId:''
   }
     componentDidMount = async () => {
-      const userId = this.props.id
-      const playlistsResponse = await fetch(`http://localhost:3005/api/users/${userId}/playlists`)
-      const playlists = await playlistsResponse.json()
-
+      const userId = JSON.parse(localStorage.getItem("token"))
+      const playlists = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${userId.userId}/playlists`).then(data=>data.json())
       this.setState({playlists, currentPlaylistId:this.props.currentPlaylistId})
     }
 

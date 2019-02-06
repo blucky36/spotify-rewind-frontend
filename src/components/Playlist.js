@@ -2,9 +2,8 @@ import React from 'react'
 import {Link} from "react-router-dom"
 
 const Playlist = (props) => {
-  const handleClick = (e) => {
-    props.select(props.playlist)
-    props.detail(props.playlist.id)
+  const handleClick = async (e) => {
+    await props.select(props.playlist)
   }
   return(
     <div className = "row">

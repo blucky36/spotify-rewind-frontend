@@ -29,31 +29,43 @@ export default class DetailedPlaylist extends Component {
   }
 
   async handleSendToSpotify(){
-    //post an array of uri's to spotify api
-let time = moment().format("ll h:mm a")
-let playlistName = this.props.state.arePlaylist?this.props.state.currentPlaylistName:this.props.state.selected.name
-
-    let tokenObj = JSON.parse(localStorage.getItem("token"))
-    let postPlaylist = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists`,
-      {
-        method:"post",
-        headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`},
-        body:JSON.stringify(
-          {"name":`Backup of ${playlistName} : ${time}`,"public":"false"}
-        )
+      let time = moment().format("ll h:mm a")
+      let playlistName = this.props.state.arePlaylist?this.props.state.currentPlaylistName:this.props.state.selected.name
+      let tokenObj = JSON.parse(localStorage.getItem("token"))
+      let postPlaylist = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists`,
+        {
+          method:"post",
+          headers:{"Content-Type":"application/json","Authorization":`Bearer ${tokenObj.accessToken}`},
+          body:JSON.stringify(
+            {"name":`Backup of ${playlistName} : ${time}`,"public":"false"}
+          )
+        }
+      ).then(data=>data.json())
+      let remaining = this.props.state.selectedPlaylistTracks.length
+      let arrayToSend = [...this.props.state.selectedPlaylistTracks]
+      let playlistConfirm
+      if(remaining <= 50){
+        let uriString = arrayToSend.reduce((a,e,i)=>{
+          let uri = this.props.state.areVersion ? e.spotify_uri.split(":").join("%3A")+"," : e.track.uri.split(":").join("%3A")+","
+          a+=uri
+          return a
+        },"").slice(0,-1)
+        playlistConfirm = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}}).then(data=>data.json())
+      }else{
+        while(remaining > 0){
+          console.log(remaining);
+          let oneHundo = arrayToSend.splice(0,50)
+          remaining -= 50
+          let uriString = oneHundo.reduce((a,e,i)=>{
+            let uri = this.props.state.areVersion ? e.spotify_uri.split(":").join("%3A")+"," : e.track.uri.split(":").join("%3A")+","
+            a+=uri
+            return a
+          },"").slice(0,-1)
+          playlistConfirm = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}}).then(data=>data.json())
+          console.log(remaining);
+        }
       }
-    ).then(data=>data.json())
-    console.log(postPlaylist)
-    let uriString = this.props.state.selectedPlaylistTracks.reduce((a,e,i)=>{
-      let uri = this.props.state.areVersion ? e.spotify_uri.split(":").join("%3A")+"," : e.track.uri.split(":").join("%3A")+","
-      a+=uri
-      return a
-    },"").slice(0,-1)
-    console.log(uriString);
-    await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}})
-    console.log("success?")
-  }
-
+    }
 
   render(){
     return(

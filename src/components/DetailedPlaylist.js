@@ -48,7 +48,7 @@ export default class DetailedPlaylist extends Component {
       <div>
         <div className="row">
           <div className="col-2">
-            {<button onClick={()=>{this.handleSendToSpotify()}}>Restore Version To Spotify</button>}
+            {<button className='btn btn-primary' onClick={()=>{this.handleSendToSpotify()}}>Restore Version To Spotify</button>}
             {this.state.backedPlaylists.length > 0 ? <PlaylistSidebar id={this.props.state.userData.id} currentPlaylistId={this.props.state.currentPlaylistId} changeState={this.props.changePLID}
             playlists={this.state.backedPlaylists}
             setCurrentPlaylistId ={this.setCurrentPlaylistId}/> : null}

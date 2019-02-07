@@ -22,5 +22,49 @@
     </style>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded",()=>{
+        let allowedKeys = {37: 'left',38: 'up',39: 'right',40: 'down',65: 'a',66: 'b'}
+        let secretKeys = {77:"m",65:"a",67:"c",72:"h",79:"o",78:"n",82:"r",68:"d",89:"y",83:"s",86:"v",71:"g",69:"e",32:"space"}
+        let konamiCode = ['up', 'up', 'down', 'down', 'left', 'right', 'left', 'right', 'b', 'a']
+        let macho = ["m","a","c","h","o","space","m","a","n","space","r","a","n","d","y","space","s","a","v","a","g","e"]
+        let konamiCodePosition = 0
+        let machoPosition = 0
+        const terrible = () => {
+          document.body.style.backgroundImage = "url('images/konami.gif')"
+          let audio = new Audio('images/illuminati.mp3')
+          audio.play()
+          alert("Awful Mode Activated")
+        }
+        const machoMan = () => {
+          document.body.style.backgroundImage = "url('https://cdn.sescoops.com/wp-content/uploads/2018/05/macho-man-champion-2017-05-11.jpg-e1526819293723-696x392.png')"
+        }
+        document.addEventListener('keydown', function(e) {
+          let key = allowedKeys[e.keyCode]
+          let nacho = secretKeys[e.keyCode]
+          let requiredKey = konamiCode[konamiCodePosition]
+          let machoKey = macho[machoPosition]
+          if(nacho == machoKey){
+            machoPosition++
+            console.log(machoPosition);
+            if(machoPosition == macho.length){
+              machoMan()
+              machoPosition = 0
+            }
+          }else{
+            machoPosition = 0
+          }
+          if (key == requiredKey) {
+            konamiCodePosition++
+            if (konamiCodePosition == konamiCode.length) {
+              terrible()
+              konamiCodePosition = 0
+            }
+          } else {
+            konamiCodePosition = 0
+          }
+        })
+      })
+    </script>
   </body>
 </html>

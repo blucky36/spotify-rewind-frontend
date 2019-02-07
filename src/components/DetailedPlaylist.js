@@ -81,10 +81,10 @@ export default class DetailedPlaylist extends Component {
             <table className="table">
               <thead>
                 <tr>
-                  {!this.props.state.areVersion&&<th scope="col">Cover</th>}
+                  <th scope="col">Cover</th>
                   <th scope="col">Song</th>
                   <th scope="col">Artist</th>
-                  {!this.props.state.areVersion&&<th scope="col">Preview</th>}
+                  <th scope="col">Preview</th>
                 </tr>
               </thead>
               <tbody>

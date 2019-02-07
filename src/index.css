@@ -90,8 +90,22 @@ audio{
   border-color: #2947e1;
 }
 
-@keyframes spin{100%{transform: rotate(24000deg)}}
-
-.logout{
-  font-size: 120%;
+.playerBtnPlay{
+  border-radius: 50%;
+  background-color: black;
+  border:solid 1px black;
+  color: white;
 }
+
+.playerBtnPause{
+  border-radius: 50%;
+  background-color: black;
+  border:solid 1px black;
+  color: white;
+}
+
+.player{
+  background-color: black;
+}
+
+@keyframes spin{100%{transform: rotate(24000deg)}}

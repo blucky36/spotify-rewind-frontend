@@ -85,3 +85,7 @@ audio{
 }
 
 @keyframes spin{100%{transform: rotate(24000deg)}}
+
+.logout{
+  font-size: 120%;
+}

@@ -10,6 +10,7 @@ const SelectVersion = (props) => {
     let versionTracksChange = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObjChange.userId}/playlists/${window.location.href.split("/")[window.location.href.split("/").length-1]}/versions/${event.target.value}`).then(data=>data.json())
     props.grabTracks(versionTracksChange,true)
     props.setCurrentPlaylistTimeStamp(event.target.dataset.timestamp)
+    props.enableRestoreButton()
   }
   return (
     <li onClick = {(e)=>{handleClick(e)}} value={`${props.version.id}`} data-timestamp={props.version.created_at} className = "btn btn-secondary">

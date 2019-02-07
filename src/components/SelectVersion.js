@@ -1,5 +1,4 @@
 import React from "react"
-import {Link} from "react-router-dom"
 import moment from "moment"
 
 const SelectVersion = (props) => {
@@ -7,7 +6,7 @@ const SelectVersion = (props) => {
     event.persist()
     let tokenObjChange = JSON.parse(localStorage.getItem("token"))
     let currentPlaylistIdChange = window.location.href.split('/').slice(-1)[0]
-    let versionTracksChange = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObjChange.userId}/playlists/${window.location.href.split("/")[window.location.href.split("/").length-1]}/versions/${event.target.value}`).then(data=>data.json())
+    let versionTracksChange = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObjChange.userId}/playlists/${currentPlaylistIdChange}/versions/${event.target.value}`).then(data=>data.json())
     props.grabTracks(versionTracksChange,true)
     props.setCurrentPlaylistTimeStamp(event.target.dataset.timestamp)
     props.enableRestoreButton()

@@ -14,7 +14,6 @@ class PlaylistSidebar extends Component {
     this.props.enableRestoreButton()
   }
     componentDidMount = () => {
-      const userId = this.props.id
       const playlists = this.props.playlists
 
       this.setState({playlists, currentPlaylistId:this.props.currentPlaylistId})

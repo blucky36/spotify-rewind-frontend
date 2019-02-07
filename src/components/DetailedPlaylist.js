@@ -1,8 +1,7 @@
-import React,{Component,Fragment} from "react"
+import React,{Component} from "react"
 import Track from "./Track.js"
 import PlaylistSidebar from "./PlaylistSidebar.js"
 import SelectVersion from "./SelectVersion.js"
-import { Link } from "react-router-dom"
 import moment from "moment"
 
 export default class DetailedPlaylist extends Component {
@@ -55,17 +54,15 @@ export default class DetailedPlaylist extends Component {
       ).then(data=>data.json())
       let remaining = this.props.state.selectedPlaylistTracks.length
       let arrayToSend = [...this.props.state.selectedPlaylistTracks]
-      let playlistConfirm
       if(remaining <= 50){
         let uriString = arrayToSend.reduce((a,e,i)=>{
           let uri = this.props.state.areVersion ? e.spotify_uri.split(":").join("%3A")+"," : e.track.uri.split(":").join("%3A")+","
           a+=uri
           return a
         },"").slice(0,-1)
-        playlistConfirm = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}}).then(data=>data.json())
+        await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}}).then(data=>data.json())
       }else{
         while(remaining > 0){
-          console.log(remaining);
           let oneHundo = arrayToSend.splice(0,50)
           remaining -= 50
           let uriString = oneHundo.reduce((a,e,i)=>{
@@ -73,8 +70,7 @@ export default class DetailedPlaylist extends Component {
             a+=uri
             return a
           },"").slice(0,-1)
-          playlistConfirm = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}}).then(data=>data.json())
-          console.log(remaining);
+          await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists/${postPlaylist.id}/tracks?uris=${uriString}`,{method:"post",headers:{"Authorization":`Bearer ${tokenObj.accessToken}`,"Accept":"application/json"}}).then(data=>data.json())
         }
       }
     }

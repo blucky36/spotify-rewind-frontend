@@ -12,7 +12,7 @@ class HandleLogin extends Component {
   }
 
   render () {
-    {this.parseQueryString()}
+    this.parseQueryString()
     return <div id = "ooh" className="fidget"></div>
   }
 }

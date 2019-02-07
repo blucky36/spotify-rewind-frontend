@@ -5,7 +5,6 @@ import AvailablePlaylists from './components/AvailablePlaylists'
 import DetailedPlaylist from './components/DetailedPlaylist.js'
 import HandleLogin from './components/HandleLogin'
 import Navbar from "./components/Navbar.js"
-import ComparePlaylist from './components/ComparePlaylist'
 
 class App extends Component {
 
@@ -192,7 +191,6 @@ class App extends Component {
               <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)} state={this.state} compMountBack={this.compMountBack.bind(this)} compMountDetailed = {this.compMountDetailed.bind(this)}/>}/>
               <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist compMountDetailed={() => this.compMountDetailed()} changePLID = {this.changeCurrentPlaylistId.bind(this)} state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks} backedPlaylists={this.state.backedPlaylists} setVersions={this.setVersions.bind(this)} />}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
-              <Route path= '/compare' render={()=> <ComparePlaylist id={this.state.userData.id} selectedTracks = {this.state.selectedPlaylistTracks} fullBackend = {this.state.fullBackend} getFull={this.compMountBack.bind(this)}/>} />
             </Switch>
           </div>
         </Router>

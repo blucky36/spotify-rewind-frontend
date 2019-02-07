@@ -12,7 +12,8 @@ export default class DetailedPlaylist extends Component {
     backedPlaylists: [],
     backVersions: [],
     currentPlaylistId:'',
-    currentPlaylistTimestamp:''
+    currentPlaylistTimestamp:'',
+    restoreButtonDisabled:false
   }
 
   setCurrentPlaylistTimeStamp = (time) => {
@@ -35,10 +36,11 @@ export default class DetailedPlaylist extends Component {
   async componentDidMount(){
     const {backedPlaylists, backVersions } = await this.props.compMountDetailed()
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
-    await this.setState({backedPlaylists, backVersions, currentPlaylistId,currentPlaylistTimestamp:moment(backVersions[backVersions.length-1].created_at).format("MMM Do YY h:mm a")})
+    await this.setState({restoreButtonDisabled:false, backedPlaylists, backVersions, currentPlaylistId,currentPlaylistTimestamp:moment(backVersions[backVersions.length-1].created_at).format("MMM Do YY h:mm a")})
   }
 
   async handleSendToSpotify(){
+    this.disableRestoreButton()
       let time = this.state.currentPlaylistTimestamp
       let playlistName = this.props.state.arePlaylist?this.props.state.currentPlaylistName:this.props.state.selected.name
       let tokenObj = JSON.parse(localStorage.getItem("token"))
@@ -77,13 +79,22 @@ export default class DetailedPlaylist extends Component {
       }
     }
 
+    disableRestoreButton = () => {
+      this.setState({restoreButtonDisabled:true})
+    }
+
+    enableRestoreButton = () => {
+      this.setState({restoreButtonDisabled:false})
+    }
+
   render(){
     return(
       <div>
         <div className="row">
           <div className="col-2">
-            {<button className='btn btn-primary' onClick={()=>{this.handleSendToSpotify()}}>Restore Version To Spotify</button>}
-            {this.state.backedPlaylists.length > 0 ? <PlaylistSidebar id={this.props.state.userData.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.props.changePLID}
+
+            {<button className='btn btn-primary' disabled={this.state.restoreButtonDisabled} onClick={()=>{this.handleSendToSpotify()}}>{this.state.restoreButtonDisabled ? "Your playlist has been saved" : "Restore Version to spotify"}</button>}
+            {this.state.backedPlaylists.length > 0 ? <PlaylistSidebar enableRestoreButton={this.enableRestoreButton} id={this.props.state.userData.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.props.changePLID}
             playlists={this.state.backedPlaylists}
             setCurrentPlaylistId ={this.setCurrentPlaylistId}/> : null}
           </div>
@@ -105,7 +116,7 @@ export default class DetailedPlaylist extends Component {
           <div className = "col-2">
             <h4>Available Versions</h4>
             <ul>
-              {this.state.backVersions.map((version,idx)=><SelectVersion setCurrentPlaylistTimeStamp={this.setCurrentPlaylistTimeStamp} grabTracks = {this.props.grabTracks} key = {idx} version={version}/>)}
+              {this.state.backVersions.map((version,idx)=><SelectVersion enableRestoreButton={this.enableRestoreButton} setCurrentPlaylistTimeStamp={this.setCurrentPlaylistTimeStamp} grabTracks = {this.props.grabTracks} key = {idx} version={version}/>)}
             </ul>
           </div>
         </div>

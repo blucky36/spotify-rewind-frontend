@@ -73,9 +73,9 @@ class App extends Component {
     )
   }
 
-  async postVersion(trackArray){
+  async postVersion(trackArray,playlistId){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
-    await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions`,
+    await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${playlistId}/versions`,
       {
         method:"post",
         headers:{"Content-Type": "application/json","Accept": "application/json"},
@@ -146,7 +146,7 @@ class App extends Component {
     let backVersions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${playlistId}/versions`).then(data=>data.json())
     let snapshotIdArr = backVersions.map(ver=>ver.snapshot_id)
     if(!snapshotIdArr.includes(this.state.selected.snapshot_id)){
-      backVersions = await this.postVersion(trackArray)
+      backVersions = await this.postVersion(trackArray,playlistId)
       console.log("success");
     }
     let backedPlaylists = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists`).then(data=>data.json())

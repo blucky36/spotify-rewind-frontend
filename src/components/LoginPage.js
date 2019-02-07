@@ -20,7 +20,7 @@ class LoginPage extends Component {
           <div className="col-12 text-center">
             <div className = "row">
               <div className = "col-5"></div>
-              <div className = "col-2 top" ><div className="fidget"></div></div>
+              <div className = "col-2 top" ><img src="./images/spotify_rewind_transparent.svg" width="50" height="50" alt=""/></div>
               <div className = "col-5"></div>
             </div>
           </div>

@@ -26,7 +26,7 @@ class PlaylistSidebar extends Component {
         return (
           <li key = {i}>
             <Link key = {i} onClick = {()=>{this.onClick(playlist.spotify_playlist_id,playlist.name,true)}} to={`/detailedplaylist/${playlist["spotify_playlist_id"]}`} {...this.props.currentPlaylistId===playlist['spotify_playlist_id']? {style:{paddingLeft:10},className:'playlist playlist-current'}: {className:'playlist',style:{paddingLeft:13}} } >
-              {playlist.name}
+              <i className="fa fa-music"></i> {playlist.name}
             </Link>
           </li>
         )

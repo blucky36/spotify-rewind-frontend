@@ -7,7 +7,7 @@ const Playlist = (props) => {
   }
   return(
     <div className = "row">
-        <Link to = {`/detailedplaylist/${props.playlist.id}`} className="playlist playlist-available" onClick={()=>{handleClick()}}>{props.playlist.name}</Link>
+        <Link to = {`/detailedplaylist/${props.playlist.id}`} className="playlist playlist-available" onClick={()=>{handleClick()}}><i className="fa fa-music"></i> {props.playlist.name}</Link>
     </div>
   )
 }

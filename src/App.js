@@ -75,7 +75,7 @@ class App extends Component {
 
   async postVersion(trackArray){
     let tokenObj = JSON.parse(localStorage.getItem("token"))
-    await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.selected.id}/versions`,
+    await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${this.state.currentPlaylistId}/versions`,
       {
         method:"post",
         headers:{"Content-Type": "application/json","Accept": "application/json"},

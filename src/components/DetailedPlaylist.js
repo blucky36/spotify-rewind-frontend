@@ -23,6 +23,7 @@ export default class DetailedPlaylist extends Component {
     const { backedPlaylists } = await this.props.compMountDetailed()
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
     const backVersions = await this.getVersions(currentPlaylistId)
+    this.props.changeVersionId(backVersions[backVersions.length-1].id)
     await this.setState({backedPlaylists, backVersions, currentPlaylistId})
   }
 
@@ -35,6 +36,7 @@ export default class DetailedPlaylist extends Component {
   async componentDidMount(){
     const {backedPlaylists, backVersions } = await this.props.compMountDetailed()
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
+    this.props.changeVersionId(backVersions[backVersions.length-1].id)
     await this.setState({restoreButtonDisabled:false, backedPlaylists, backVersions, currentPlaylistId,currentPlaylistTimestamp:moment(backVersions[backVersions.length-1].created_at).format("MMM Do YY h:mm a")})
   }
 
@@ -95,7 +97,7 @@ export default class DetailedPlaylist extends Component {
             setCurrentPlaylistId ={this.setCurrentPlaylistId}/> : null}
           </div>
           <div className="col-8">
-            <table className="table">
+            <table className="table table-dark" style={{backgroundColor:"#222222"}}>
               <thead>
                 <tr>
                   <th scope="col">Cover</th>
@@ -112,7 +114,7 @@ export default class DetailedPlaylist extends Component {
           <div className = "col-2">
             <h4>Available Versions</h4>
             <ul>
-              {this.state.backVersions.map((version,idx)=><SelectVersion enableRestoreButton={this.enableRestoreButton} setCurrentPlaylistTimeStamp={this.setCurrentPlaylistTimeStamp} grabTracks = {this.props.grabTracks} key = {idx} version={version}/>)}
+              {this.state.backVersions.map((version,idx)=><SelectVersion changeVersionId = {this.props.changeVersionId} currentVersionId = {this.props.state.currentVersionId} enableRestoreButton={this.enableRestoreButton} setCurrentPlaylistTimeStamp={this.setCurrentPlaylistTimeStamp} grabTracks = {this.props.grabTracks} key = {idx} version={version}/>)}
             </ul>
           </div>
         </div>

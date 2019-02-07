@@ -17,7 +17,7 @@ class App extends Component {
     avatar:"",
     fullBackend:{},
     awaitingAvailable:false,
-    currentVersionId:1,
+    currentVersionId:"",
     playlistVersionArray:[],
     currentPlaylistId:"",
     currentPlaylistName:"",
@@ -34,8 +34,8 @@ class App extends Component {
     await this.setState({...this.state,playlistVersionArray})
   }
 
-  async changeDetailVersion(){
-
+  async changeVersionId(currentVersionId){
+    this.setState({...this.state,currentVersionId})
   }
 
   changeCurrentPlaylistId(currentPlaylistId,currentPlaylistName,arePlaylist = false){
@@ -189,7 +189,7 @@ class App extends Component {
             <Switch>
               <Route exact path = "/" render={()=><LoginPage/>}/>
               <Route exact path = "/availableplaylists" render={()=><AvailablePlaylists compMount = {this.compMountAvailable.bind(this)} selectPlaylist = {this.selectPlaylist.bind(this)} state={this.state} compMountBack={this.compMountBack.bind(this)} compMountDetailed = {this.compMountDetailed.bind(this)}/>}/>
-              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist compMountDetailed={() => this.compMountDetailed()} changePLID = {this.changeCurrentPlaylistId.bind(this)} state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks} backedPlaylists={this.state.backedPlaylists} setVersions={this.setVersions.bind(this)} />}/>
+              <Route path = "/detailedplaylist/:id" render={()=><DetailedPlaylist changeVersionId={this.changeVersionId.bind(this)} compMountDetailed={() => this.compMountDetailed()} changePLID = {this.changeCurrentPlaylistId.bind(this)} state = {this.state} grabTracks = {this.grabTracks.bind(this)} tracks = {this.state.selectedPlaylistTracks} backedPlaylists={this.state.backedPlaylists} setVersions={this.setVersions.bind(this)} />}/>
               <Route path = "/handlelogin" render={()=><HandleLogin/>}/>
             </Switch>
           </div>

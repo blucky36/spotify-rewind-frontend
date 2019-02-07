@@ -10,10 +10,11 @@ const SelectVersion = (props) => {
     props.grabTracks(versionTracksChange,true)
     props.setCurrentPlaylistTimeStamp(event.target.dataset.timestamp)
     props.enableRestoreButton()
+    props.changeVersionId(event.target.value)
   }
   return (
-    <li onClick = {(e)=>{handleClick(e)}} value={`${props.version.id}`} data-timestamp={props.version.created_at} className = "btn btn-secondary">
-      {moment(props.version.created_at).format("MMM Do YY h:mm a")}
+    <li onClick = {(e)=>{handleClick(e)}} value={`${props.version.id}`} style={{paddingLeft:10}} data-timestamp={props.version.created_at} {...props.currentVersionId===props.version.id ? {className:"playlist playlist-current"} : {className:"playlist"}}>
+      <i className="fa fa-cloud-download"></i> {moment(props.version.created_at).format("MMM Do YY h:mm a")}
     </li>
   )
 }

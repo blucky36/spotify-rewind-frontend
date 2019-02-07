@@ -163,14 +163,21 @@ class App extends Component {
   logout = () => {
     localStorage.removeItem('token')
     this.setstate(() => ({
-    playlistsData: {},
-    playlists:[],
-    userData: {},
-    selected: {},
-    selectedPlaylistTracks:[],
-    avatar:"",
-    fullBackend:{},
-    selectedAreDb:false
+      playlistsData: {},
+      playlists:[],
+      userData: {},
+      selected: {},
+      selectedPlaylistTracks:[],
+      avatar:"",
+      fullBackend:{},
+      awaitingAvailable:false,
+      currentVersionId:1,
+      playlistVersionArray:[],
+      currentPlaylistId:"",
+      currentPlaylistName:"",
+      backedPlaylists:[],
+      areVersion:false,
+      arePlaylist:false
     }))
   }
 

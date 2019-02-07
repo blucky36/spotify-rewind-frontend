@@ -35,7 +35,7 @@ export default class DetailedPlaylist extends Component {
   async componentDidMount(){
     const {backedPlaylists, backVersions } = await this.props.compMountDetailed()
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
-    await this.setState({backedPlaylists, backVersions, currentPlaylistId})
+    await this.setState({backedPlaylists, backVersions, currentPlaylistId,currentPlaylistTimestamp:moment(backVersions[backVersions.length-1].created_at).format("MMM Do YY h:mm a")})
   }
 
   async handleSendToSpotify(){
@@ -91,10 +91,10 @@ export default class DetailedPlaylist extends Component {
             <table className="table">
               <thead>
                 <tr>
-                  {!this.props.state.areVersion&&<th scope="col">Cover</th>}
+                  <th scope="col">Cover</th>
                   <th scope="col">Song</th>
                   <th scope="col">Artist</th>
-                  {!this.props.state.areVersion&&<th scope="col">Preview</th>}
+                  <th scope="col">Preview</th>
                 </tr>
               </thead>
               <tbody>

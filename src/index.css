@@ -1,6 +1,12 @@
 body{
   font-family: 'Proxima Nova', sans-serif;
   background-color: #222222;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  max-width: 100%;
+  overflow-x: hidden;
   color: white;
 }
 

@@ -12,24 +12,34 @@ export default class DetailedPlaylist extends Component {
     backedPlaylists: [],
     backVersions: [],
     currentPlaylistId:'',
+    currentPlaylistTimestamp:''
+  }
+
+  setCurrentPlaylistTimeStamp = (time) => {
+    this.setState({currentPlaylistTimestamp: moment(time).format("MMM Do YY h:mm a")})
   }
 
   setCurrentPlaylistId = async () => {
-    const { backedPlaylists, backVersions } = await this.props.compMountDetailed()
+    const { backedPlaylists } = await this.props.compMountDetailed()
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
+    const backVersions = await this.getVersions(currentPlaylistId)
     await this.setState({backedPlaylists, backVersions, currentPlaylistId})
   }
 
+  getVersions = async (playlistId) => {
+    let tokenObj = JSON.parse(localStorage.getItem("token"))
+    let backVersions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${tokenObj.userId}/playlists/${playlistId}/versions`).then(data=>data.json())
+    return backVersions
+  }
+
   async componentDidMount(){
-    //await this.props.setVersions(versions)
-    //let versions = await fetch(`${process.env.REACT_APP_BACKEND_API}/api/users/${this.props.state.userData.id}/playlists/${this.props.state.selected.id}/versions`).then(data=>data.json())
     const {backedPlaylists, backVersions } = await this.props.compMountDetailed()
     let currentPlaylistId = window.location.href.split('/').slice(-1)[0]
     await this.setState({backedPlaylists, backVersions, currentPlaylistId})
   }
 
   async handleSendToSpotify(){
-      let time = moment().format("ll h:mm a")
+      let time = this.state.currentPlaylistTimestamp
       let playlistName = this.props.state.arePlaylist?this.props.state.currentPlaylistName:this.props.state.selected.name
       let tokenObj = JSON.parse(localStorage.getItem("token"))
       let postPlaylist = await fetch(`https://api.spotify.com/v1/users/${tokenObj.userId}/playlists`,
@@ -73,7 +83,7 @@ export default class DetailedPlaylist extends Component {
         <div className="row">
           <div className="col-2">
             {<button className='btn btn-primary' onClick={()=>{this.handleSendToSpotify()}}>Restore Version To Spotify</button>}
-            {this.state.backedPlaylists.length > 0 ? <PlaylistSidebar id={this.props.state.userData.id} currentPlaylistId={this.props.state.currentPlaylistId} changeState={this.props.changePLID}
+            {this.state.backedPlaylists.length > 0 ? <PlaylistSidebar id={this.props.state.userData.id} currentPlaylistId={this.state.currentPlaylistId} changeState={this.props.changePLID}
             playlists={this.state.backedPlaylists}
             setCurrentPlaylistId ={this.setCurrentPlaylistId}/> : null}
           </div>
@@ -95,7 +105,7 @@ export default class DetailedPlaylist extends Component {
           <div className = "col-2">
             <h4>Available Versions</h4>
             <ul>
-              {this.state.backVersions.map((version,idx)=><SelectVersion grabTracks = {this.props.grabTracks} key = {idx} version={version}/>)}
+              {this.state.backVersions.map((version,idx)=><SelectVersion setCurrentPlaylistTimeStamp={this.setCurrentPlaylistTimeStamp} grabTracks = {this.props.grabTracks} key = {idx} version={version}/>)}
             </ul>
           </div>
         </div>

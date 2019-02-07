@@ -7,20 +7,28 @@ const Track = (props) => (
     <td>{props.bool?props.track.name:props.track.track.name}</td>
     <td>{props.bool?props.track.artist:props.track.track.artists[0].name}</td>
     {!props.bool?<td>
-        <audio controls className="player">
+        <audio className="player">
           <source src={`${props.track.track.preview_url}`} type="audio/mp3"/>
         </audio>
           <div>
-            <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>Play</button>
-            <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>Pause</button>
+            <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>
+              <i class="fa fa-play"></i>
+            </button>
+            <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>
+              <i class="fa fa-pause"></i>
+            </button>
           </div>
       </td>:<td>
-        <audio controls className="player">
+        <audio className="player">
           <source src={`${props.track.preview}`} type="audio/mp3"/>
         </audio>
           <div>
-            <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>Play</button>
-            <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>Pause</button>
+            <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>
+              <i class="fa fa-play"></i>
+            </button>
+            <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>
+              <i class="fa fa-pause"></i>
+            </button>
           </div>
       </td>
     }

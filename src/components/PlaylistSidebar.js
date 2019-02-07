@@ -11,6 +11,7 @@ class PlaylistSidebar extends Component {
   onClick = async (playlistId,name,bool) => {
     await this.props.changeState(playlistId,name,bool)
     await this.props.setCurrentPlaylistId()
+    this.props.enableRestoreButton()
   }
     componentDidMount = () => {
       const userId = this.props.id

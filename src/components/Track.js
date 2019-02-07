@@ -12,10 +12,10 @@ const Track = (props) => (
         </audio>
           <div>
             <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>
-              <i class="fa fa-play"></i>
+              <i className="fa fa-play"></i>
             </button>
             <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>
-              <i class="fa fa-pause"></i>
+              <i className="fa fa-pause"></i>
             </button>
           </div>
       </td>:<td>
@@ -24,10 +24,10 @@ const Track = (props) => (
         </audio>
           <div>
             <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>
-              <i class="fa fa-play"></i>
+              <i className="fa fa-play"></i>
             </button>
             <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>
-              <i class="fa fa-pause"></i>
+              <i className="fa fa-pause"></i>
             </button>
           </div>
       </td>

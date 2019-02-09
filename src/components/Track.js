@@ -6,32 +6,6 @@ const Track = (props) => (
     {!props.bool?<th scope = "row"><img src = {props.track.track.album.images.length > 0 ? `${props.track.track.album.images[0].url}`:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"} alt="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" className = "track"/></th>:<th scope = "row"><img src = {props.track.cover !== "" ? `${props.track.cover}`:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"} alt="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" className = "track"/></th>}
     <td>{props.bool?props.track.name:props.track.track.name}</td>
     <td>{props.bool?props.track.artist:props.track.track.artists[0].name}</td>
-    {!props.bool?<td>
-        <audio className="player">
-          <source src={`${props.track.track.preview_url}`} type="audio/mp3"/>
-        </audio>
-          <div>
-            <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>
-              <i className="fa fa-play"></i>
-            </button>
-            <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>
-              <i className="fa fa-pause"></i>
-            </button>
-          </div>
-      </td>:<td>
-        <audio className="player">
-          <source src={`${props.track.preview}`} type="audio/mp3"/>
-        </audio>
-          <div>
-            <button className="playerBtnPlay" onClick={()=>{document.getElementsByClassName('player')[props.index].play()}}>
-              <i className="fa fa-play"></i>
-            </button>
-            <button className="playerBtnPause" onClick={()=>{document.getElementsByClassName('player')[props.index].pause()}}>
-              <i className="fa fa-pause"></i>
-            </button>
-          </div>
-      </td>
-    }
   </tr>
 )
 

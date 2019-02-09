@@ -103,7 +103,6 @@ export default class DetailedPlaylist extends Component {
                   <th scope="col">Cover</th>
                   <th scope="col">Song</th>
                   <th scope="col">Artist</th>
-                  <th scope="col">Preview</th>
                 </tr>
               </thead>
               <tbody>
